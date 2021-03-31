@@ -29,4 +29,10 @@ public class PatientService {
 		return patients;
 	}
 
+	public boolean addNewPatient(Patient patient) {
+		logger.info("Adding new patient in services");
+		patientRepository.save(patient);
+		return true;
+	}
+
 }

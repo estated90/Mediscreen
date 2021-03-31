@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @author Nico
@@ -22,15 +25,16 @@ public class Patient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "patientId")
 	private int id;
-	@Column(name = "familyName", length = 30, nullable = false)
+	@Column(name = "family", nullable = false)
 	@NotBlank(message = "Family name is mandatory")
-	private String familyName;
-	@Column(name = "givenName", length = 30, nullable = false)
+	private String family;
+	@Column(name = "given", nullable = false)
 	@NotBlank(message = "Given name is mandatory")
-	private String givenName;
+	private String given;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@Column(name = "dateOfBirth")
-	@NotBlank(message = "Date of birth cannot be null")
-	private LocalDate dateOfBirth;
+	@PastOrPresent(message = "Date format is YYYY-MM-DD")
+	private LocalDate dob;
 	@Column(name = "sex", length = 1, nullable = false)
 	@NotBlank(message = "You need to fill the sex")
 	private String sex;
@@ -41,34 +45,26 @@ public class Patient {
 	@NotBlank(message = "Phone cannot be blank")
 	private String phone;
 
-	/**
-	 * 
-	 */
 	public Patient() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @param familyName
-	 * @param givenName
-	 * @param dateOfBirth
-	 * @param sex
-	 * @param address
-	 * @param phone
-	 */
-	public Patient(String familyName, String givenName, LocalDate dateOfBirth, String sex, String address,
-			String phone) {
+	public Patient(@NotBlank(message = "Family name is mandatory") String family,
+			@NotBlank(message = "Given name is mandatory") String given,
+			@PastOrPresent(message = "Date of birth cannot be null") LocalDate dateOfBirth,
+			@NotBlank(message = "You need to fill the sex") String sex,
+			@NotBlank(message = "Adress cannot be blank") String address,
+			@NotBlank(message = "Phone cannot be blank") String phone) {
 		super();
-		this.familyName = familyName;
-		this.givenName = givenName;
-		this.dateOfBirth = dateOfBirth;
+		this.family = family;
+		this.given = given;
+		this.dob = dateOfBirth;
 		this.sex = sex;
 		this.address = address;
 		this.phone = phone;
 	}
 
-		/**
+	/**
 	 * @return the id
 	 */
 	public int getId() {
@@ -83,45 +79,45 @@ public class Patient {
 	}
 
 	/**
-	 * @return the familyName
+	 * @return the family
 	 */
-	public String getFamilyName() {
-		return familyName;
+	public String getFamily() {
+		return family;
 	}
 
 	/**
-	 * @param familyName the familyName to set
+	 * @param family the family to set
 	 */
-	public void setFamilyName(String familyName) {
-		this.familyName = familyName;
+	public void setFamily(String family) {
+		this.family = family;
 	}
 
 	/**
-	 * @return the givenName
+	 * @return the given
 	 */
-	public String getGivenName() {
-		return givenName;
+	public String getGiven() {
+		return given;
 	}
 
 	/**
-	 * @param givenName the givenName to set
+	 * @param given the given to set
 	 */
-	public void setGivenName(String givenName) {
-		this.givenName = givenName;
+	public void setGiven(String given) {
+		this.given = given;
 	}
 
 	/**
 	 * @return the dateOfBirth
 	 */
 	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
+		return dob;
 	}
 
 	/**
 	 * @param dateOfBirth the dateOfBirth to set
 	 */
 	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+		this.dob = dateOfBirth;
 	}
 
 	/**
@@ -166,10 +162,5 @@ public class Patient {
 		this.phone = phone;
 	}
 
-	@Override
-	public String toString() {
-		return "patient [familyName=" + familyName + ", givenName=" + givenName + ", dateOfBirth=" + dateOfBirth
-				+ ", sex=" + sex + ", address=" + address + ", phone=" + phone + "]";
-	}
-
+	
 }
