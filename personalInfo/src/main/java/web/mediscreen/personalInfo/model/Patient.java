@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author Nico
@@ -31,9 +31,9 @@ public class Patient {
 	@Column(name = "given", nullable = false)
 	@NotBlank(message = "Given name is mandatory")
 	private String given;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "dateOfBirth")
-	@PastOrPresent(message = "Date format is YYYY-MM-DD")
 	private LocalDate dob;
 	@Column(name = "sex", length = 1, nullable = false)
 	@NotBlank(message = "You need to fill the sex")
@@ -107,17 +107,17 @@ public class Patient {
 	}
 
 	/**
-	 * @return the dateOfBirth
+	 * @return the dob
 	 */
-	public LocalDate getDateOfBirth() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
 	/**
-	 * @param dateOfBirth the dateOfBirth to set
+	 * @param dob the dob to set
 	 */
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dob = dateOfBirth;
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
 	}
 
 	/**
@@ -161,6 +161,5 @@ public class Patient {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 	
 }
