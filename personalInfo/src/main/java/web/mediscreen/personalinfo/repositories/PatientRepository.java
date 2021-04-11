@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.repositories;
+package web.mediscreen.personalinfo.repositories;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import web.mediscreen.personalInfo.model.Patient;
+import web.mediscreen.personalinfo.model.Patient;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer> {

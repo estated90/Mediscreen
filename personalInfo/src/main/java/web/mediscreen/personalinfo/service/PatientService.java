@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.service;
+package web.mediscreen.personalinfo.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 
-import web.mediscreen.personalInfo.exception.DbSaveException;
-import web.mediscreen.personalInfo.exception.PatientExistException;
-import web.mediscreen.personalInfo.exception.PatientNoExistException;
-import web.mediscreen.personalInfo.exception.PatientRetrevalException;
-import web.mediscreen.personalInfo.model.Patient;
-import web.mediscreen.personalInfo.repositories.PatientRepository;
+import web.mediscreen.personalinfo.exception.DbSaveException;
+import web.mediscreen.personalinfo.exception.PatientExistException;
+import web.mediscreen.personalinfo.exception.PatientNoExistException;
+import web.mediscreen.personalinfo.exception.PatientRetrevalException;
+import web.mediscreen.personalinfo.model.Patient;
+import web.mediscreen.personalinfo.repositories.PatientRepository;
 
 @Service
 @Transactional
@@ -69,7 +69,8 @@ public class PatientService {
     
     public boolean checkDoubleDb(int id) {
 	logger.info("checking if patient {} already in db", id);
-	if (patientRepository.findById(id) == null) {
+	Optional<Patient> patient = patientRepository.findById(id);
+	if (patient.isPresent()) {
 	    return true;
 	} else {
 	    return false;
@@ -78,7 +79,7 @@ public class PatientService {
 
     public Optional<Patient> getPatientById(int id) throws PatientNoExistException {
 	logger.info("Service to return patient with id : {}", id);
-	if(!checkDoubleDb(id) && id!=0){
+	if(checkDoubleDb(id) && id!=0){
 	    return patientRepository.findById(id);
 	} else {
 	    logger.error("The patient was not found in DB");
@@ -88,7 +89,7 @@ public class PatientService {
     
     public Patient updatingPatient(Patient patient) throws PatientNoExistException {
 	logger.info("Updating patient with id : {}", patient.getId());
-	if(!checkDoubleDb((patient.getId())) && (patient.getId()!=0)){
+	if(checkDoubleDb((patient.getId())) && (patient.getId()!=0)){
 	    return patientRepository.save(patient);
 	} else {
 	    logger.error("The patient was not found in DB");

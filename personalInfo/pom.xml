@@ -16,6 +16,10 @@
 	<description>Micro service to deal with the personnal info of patient.</description>
 	<properties>
 		<java.version>16</java.version>
+		<sonar.projectKey>estated90_Mediscreen</sonar.projectKey>
+		<sonar.organization>estated90</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>b9be3fe3fce914e66d51f4dc484c0f14592626e4</sonar.login>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.service;
+package web.mediscreen.personalinfo.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
@@ -144,6 +144,17 @@ class PatientServiceTest {
     @Order(9)
     void whenUpdatingPatientNotInDb_thenAlertUser() throws Exception {
 	String patient = "{\"id\":\"0\",\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"100-222-3333\"}";
+	mockMvc.perform(
+		MockMvcRequestBuilders.post("/patient/update").contentType(MediaType.APPLICATION_JSON).content(patient))
+		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+		.andExpect(jsonPath("$.message", is("This patient do not exist in db")))
+		.andExpect(jsonPath("$.errors", hasItem("This patient do not exist in db")));
+    }
+    
+    @Test
+    @Order(9)
+    void whenUpdatingPatientNotInDbIdNotZero_thenAlertUser() throws Exception {
+	String patient = "{\"id\":\"30\",\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"100-222-3333\"}";
 	mockMvc.perform(
 		MockMvcRequestBuilders.post("/patient/update").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest())

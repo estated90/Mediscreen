@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo;
+package web.mediscreen.personalinfo;
 
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.is;
@@ -6,15 +6,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.TestPropertySource;
 
-import web.mediscreen.personalInfo.exception.PatientRetrevalException;
-import web.mediscreen.personalInfo.repositories.PatientRepository;
-import web.mediscreen.personalInfo.service.PatientService;
+import web.mediscreen.personalinfo.exception.PatientRetrevalException;
+import web.mediscreen.personalinfo.repositories.PatientRepository;
+import web.mediscreen.personalinfo.service.PatientService;
 
 @TestPropertySource(locations = "classpath:application-test.properties")
+@RunWith(MockitoJUnitRunner.class)
 class PatientServiceUnitTest {
 
     @Mock

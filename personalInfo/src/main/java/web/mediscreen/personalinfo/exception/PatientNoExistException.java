@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.exception;
+package web.mediscreen.personalinfo.exception;
 
 public class PatientNoExistException extends Exception {
     /**

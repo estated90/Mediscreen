@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.controller;
+package web.mediscreen.personalinfo.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import web.mediscreen.personalInfo.model.Patient;
-import web.mediscreen.personalInfo.service.PatientService;
+import web.mediscreen.personalinfo.model.Patient;
+import web.mediscreen.personalinfo.service.PatientService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")

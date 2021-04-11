@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.model;
+package web.mediscreen.personalinfo.model;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import web.mediscreen.personalInfo.validators.FieldMatch;
+import web.mediscreen.personalinfo.validators.FieldMatch;
 
 /**
  * @author Nico
