@@ -92,6 +92,16 @@
 			<version>4.2.0</version>
 			<type>pom</type>
 		</dependency>
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>6.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

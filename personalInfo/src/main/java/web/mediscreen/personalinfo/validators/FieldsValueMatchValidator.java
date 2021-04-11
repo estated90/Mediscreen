@@ -6,18 +6,18 @@ import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import web.mediscreen.personalinfo.model.Patient;
+import web.mediscreen.personalinfo.dto.PatientDto;
 
 /**
  * @author Nico
  *
  */
-public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch, Patient> {
+public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch, PatientDto> {
 
     private Logger logger = LoggerFactory.getLogger(FieldsValueMatchValidator.class);
 
     @Override
-    public boolean isValid(Patient patient, final ConstraintValidatorContext context) {
+    public boolean isValid(PatientDto patient, final ConstraintValidatorContext context) {
 	try {
 	    String sex = patient.getSex();
 	    boolean checked = false;

@@ -34,7 +34,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	    final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
 	logger.info(ex.getClass().getName());
 	//
-	final List<String> errors = new ArrayList<String>();
+	final List<String> errors = new ArrayList<>();
 	for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
 	    errors.add(error.getField() + ": " + error.getDefaultMessage());
 	}
@@ -55,7 +55,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	final String error = ex.getName() + " should be of type " + ex.getRequiredType().getName();
 
 	final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
-	return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     // 405
@@ -73,7 +73,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
 	final ApiError apiError = new ApiError(HttpStatus.METHOD_NOT_ALLOWED, ex.getLocalizedMessage(),
 		builder.toString());
-	return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     // 415
@@ -90,7 +90,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
 	final ApiError apiError = new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getLocalizedMessage(),
 		builder.substring(0, builder.length() - 2));
-	return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     // 500
@@ -102,6 +102,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	//
 	final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
 		"error occurred");
-	return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 }

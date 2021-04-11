@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import web.mediscreen.personalinfo.exception.DbSaveException;
 import web.mediscreen.personalinfo.exception.PatientExistException;
 import web.mediscreen.personalinfo.exception.PatientNoExistException;
-import web.mediscreen.personalinfo.exception.PatientRetrevalException;
 import web.mediscreen.personalinfo.model.Patient;
 import web.mediscreen.personalinfo.repositories.PatientRepository;
 
@@ -26,16 +25,9 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
-    public List<Patient> gettingAllPatient() throws Exception {
+    public List<Patient> gettingAllPatient() {
 	logger.info("Getting all users from DB");
-	List<Patient> patients = null;
-	try {
-	    patients = patientRepository.findAll();
-	} catch (Exception ex) {
-	    logger.error("error while retrieving all users : {}", ex.getMessage());
-	    throw new PatientRetrevalException("error while retrieving patients");
-	}
-	return patients;
+	return patientRepository.findAll();
     }
 
     public Patient addNewPatient(Patient patient) throws DbSaveException, PatientExistException {
@@ -60,21 +52,13 @@ public class PatientService {
     public boolean checkDoubleDb(Patient patient) {
 	logger.info("checking if patient {} {} and {} already in db", patient.getFamily(), patient.getGiven(),
 		patient.getDob());
-	if (patientRepository.findDouble(patient.getFamily(), patient.getGiven(), patient.getDob()) == null) {
-	    return true;
-	} else {
-	    return false;
-	}
+	return patientRepository.findDouble(patient.getFamily(), patient.getGiven(), patient.getDob()) == null;
     }
     
     public boolean checkDoubleDb(int id) {
 	logger.info("checking if patient {} already in db", id);
 	Optional<Patient> patient = patientRepository.findById(id);
-	if (patient.isPresent()) {
-	    return true;
-	} else {
-	    return false;
-	}
+	return patient.isPresent();
     }
 
     public Optional<Patient> getPatientById(int id) throws PatientNoExistException {

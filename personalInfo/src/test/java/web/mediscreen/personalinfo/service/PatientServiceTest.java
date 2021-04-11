@@ -73,7 +73,7 @@ class PatientServiceTest {
 		.andExpect(jsonPath("$.errors", hasItem("family: Family name is mandatory")))
 		.andExpect(jsonPath("$.errors", hasItem("phone: Phone cannot be blank")))
 		.andExpect(jsonPath("$.errors", hasItem("given: Given name is mandatory")))
-		.andExpect(jsonPath("$.errors", hasItem("patient: You can only choose F or M")));
+		.andExpect(jsonPath("$.errors", hasItem("patientDto: You can only choose F or M")));
     }
 
     @Test
