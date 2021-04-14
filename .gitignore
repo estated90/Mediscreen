@@ -21,3 +21,13 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+.gitattributes
+.project
+personalInfo/.mvn/
+personalInfo/.gitignore
+
+Mediscreen-front/.vscode
+Mediscreen-front/.browserslistrc
+Mediscreen-front/.editorconfig
+
