@@ -1,0 +1,8 @@
+version: '3.3'
+services:
+    gpsutil:
+        build: ./personalInfo/DockerFile
+        restart: always
+        ports: 
+            - "8081:8081"
+        container_name: Mediscreen

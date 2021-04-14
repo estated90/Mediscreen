@@ -55,7 +55,7 @@ public class PatientController {
 	return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping(path = "/patient/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> postPatient(@RequestBody @Valid PatientDto patient) throws PatientNoExistException {
 	logger.info("Updating patient : {}", patient.getId());

@@ -64,6 +64,7 @@ public class PatientService {
     public Optional<Patient> getPatientById(int id) throws PatientNoExistException {
 	logger.info("Service to return patient with id : {}", id);
 	if(checkDoubleDb(id) && id!=0){
+	    logger.info("Returning patient with id {}", id);
 	    return patientRepository.findById(id);
 	} else {
 	    logger.error("The patient was not found in DB");
