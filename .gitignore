@@ -27,7 +27,5 @@ hs_err_pid*
 personalInfo/.mvn/
 personalInfo/.gitignore
 
-Mediscreen-front/.vscode
-Mediscreen-front/.browserslistrc
-Mediscreen-front/.editorconfig
+Mediscreen-front/
 
