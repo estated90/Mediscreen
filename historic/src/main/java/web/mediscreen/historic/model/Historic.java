@@ -8,7 +8,7 @@ public class Historic {
 
     @Id
     private int id;
-    private String Patient;
+    private String patient;
     private String practitionnerNotesRecommandation;
     /**
      * @param id
@@ -18,7 +18,7 @@ public class Historic {
     public Historic(int id, String patient, String practitionnerNotesRecommandation) {
 	super();
 	this.id = id;
-	Patient = patient;
+	this.patient = patient;
 	this.practitionnerNotesRecommandation = practitionnerNotesRecommandation;
     }
     /**
@@ -37,13 +37,13 @@ public class Historic {
      * @return the patient
      */
     public String getPatient() {
-        return Patient;
+        return patient;
     }
     /**
      * @param patient the patient to set
      */
     public void setPatient(String patient) {
-        Patient = patient;
+        this.patient = patient;
     }
     /**
      * @return the practitionnerNotesRecommandation
