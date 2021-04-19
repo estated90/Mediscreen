@@ -15,6 +15,8 @@
 	<name>historic</name>
 	<description>Historic managment for the application of Mediscreen. P9 project of OC</description>
 	<properties>
+		<maven.compiler.source>16</maven.compiler.source>
+		<maven.compiler.target>16</maven.compiler.target>
 		<java.version>16</java.version>
 	</properties>
 	<dependencies>
@@ -44,6 +46,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>6.5.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>sharedobject</groupId>
+			<artifactId>web.sharedobject</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/sharedobject.jar</systemPath>
 		</dependency>
 	</dependencies>
 
