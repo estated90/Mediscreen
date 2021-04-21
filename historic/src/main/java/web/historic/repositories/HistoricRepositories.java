@@ -11,7 +11,7 @@ import web.historic.model.Historic;
 @Repository
 public interface HistoricRepositories extends MongoRepository<Historic, Integer> {
 
-    @Query("{'patient':?0}")
+    @Query("{'patId':?0}")
     List<Historic> findByPatientId(int id);
 
 }

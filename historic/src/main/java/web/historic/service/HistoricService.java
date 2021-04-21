@@ -13,7 +13,6 @@ import web.historic.exception.PatientNotFoundException;
 import web.historic.model.Historic;
 import web.historic.proxy.PatientFeign;
 import web.historic.repositories.HistoricRepositories;
-import web.sharedobject.model.Patient;
 
 @Service
 @ComponentScan({"web.historic.proxy", "web.historic.repositories"})
@@ -22,14 +21,17 @@ public class HistoricService {
     private static final Logger logger = LogManager.getLogger(HistoricService.class);
 
     @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
+    @Autowired
     private PatientFeign patientFeign;
     @Autowired
     private HistoricRepositories historicRepository;
 
     public List<Historic> getHistoryOfPatient(int id) throws HistoryNotFoundException {
 	logger.info("Service to get patient history from DB");
-	if (historicRepository.findByPatientId(id).size()>=1) {
-	   return historicRepository.findByPatientId(id);
+	List<Historic> historic = historicRepository.findByPatientId(id);
+	if (historic.size()>=1) {
+	   return historic;
 	} else {
 	    logger.error("No occurance were found in DB for user {}", id);
 	    throw new HistoryNotFoundException("No history has been found for patient "+id);
@@ -38,14 +40,14 @@ public class HistoricService {
 
     public void createNewHistoric(Historic historic) throws PatientNotFoundException {
 	logger.info("Service to create patient history into DB : {}", historic.getPatient());
-	if(patientFeign.getPatientById(historic.getPatient())!=null) {
+	if(patientFeign.getPatientById(historic.getPatId())!=null) {
 	    logger.info("History inserted");
+	    historic.setId(sequenceGeneratorService.generateSequence(Historic.SEQUENCE_NAME));
 	    historicRepository.insert(historic);
 	} else {
 	    logger.error("This patient do not exist");
 	    throw new PatientNotFoundException("This patient do not exist. Enable to attach historic");
 	}
-	historicRepository.insert(historic);
     }
 
 }

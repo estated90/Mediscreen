@@ -7,10 +7,13 @@ import javax.validation.constraints.Positive;
 public class HistoricDto {
 
     private int id;
+    @NotNull(message="Patient name is mandatory")
+    private String patient;
     @Positive(message = "Patient id is a positive number")
-    private int patient;
+    private int patId;
     @NotNull(message = "The note is mandatory")
     private String practitionnerNotesRecommandation;
+    
     /**
      * @return the id
      */
@@ -26,14 +29,26 @@ public class HistoricDto {
     /**
      * @return the patient
      */
-    public int getPatient() {
+    public String getPatient() {
         return patient;
     }
     /**
      * @param patient the patient to set
      */
-    public void setPatient(int patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
+    }
+    /**
+     * @return the patId
+     */
+    public int getPatId() {
+        return patId;
+    }
+    /**
+     * @param patId the patId to set
+     */
+    public void setPatId(int patId) {
+        this.patId = patId;
     }
     /**
      * @return the practitionnerNotesRecommandation
@@ -47,6 +62,6 @@ public class HistoricDto {
     public void setPractitionnerNotesRecommandation(String practitionnerNotesRecommandation) {
         this.practitionnerNotesRecommandation = practitionnerNotesRecommandation;
     }
-    
+        
     
 }

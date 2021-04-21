@@ -1,31 +1,33 @@
 package web.historic.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection="historic")
 public class Historic {
 
-    @Id
+    @Transient
+    public static final String SEQUENCE_NAME = "historic_sequence";
+    @Id 
     private int id;
-    private int patient;
+    private String patient;
+    private int patId;
     private String practitionnerNotesRecommandation;
     
-    /**
-     * 
-     */
-    public Historic() {
-	super();
-    }
+    public Historic() {}
+    
     /**
      * @param id
      * @param patient
+     * @param patId
      * @param practitionnerNotesRecommandation
      */
-    public Historic(int id, int patient, String practitionnerNotesRecommandation) {
+    public Historic(int id, String patient, int patId, String practitionnerNotesRecommandation) {
 	super();
 	this.id = id;
 	this.patient = patient;
+	this.patId = patId;
 	this.practitionnerNotesRecommandation = practitionnerNotesRecommandation;
     }
     /**
@@ -43,14 +45,26 @@ public class Historic {
     /**
      * @return the patient
      */
-    public int getPatient() {
+    public String getPatient() {
         return patient;
     }
     /**
      * @param patient the patient to set
      */
-    public void setPatient(int patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
+    }
+    /**
+     * @return the patId
+     */
+    public int getPatId() {
+        return patId;
+    }
+    /**
+     * @param patId the patId to set
+     */
+    public void setPatId(int patId) {
+        this.patId = patId;
     }
     /**
      * @return the practitionnerNotesRecommandation
@@ -64,7 +78,6 @@ public class Historic {
     public void setPractitionnerNotesRecommandation(String practitionnerNotesRecommandation) {
         this.practitionnerNotesRecommandation = practitionnerNotesRecommandation;
     }
-    
     
     
 }
