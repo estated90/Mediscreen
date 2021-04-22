@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import web.historic.exception.HistoryNotFoundException;
 import web.historic.exception.PatientNotFoundException;
 import web.historic.model.Historic;
+import web.historic.model.Patient;
 import web.historic.proxy.PatientFeign;
 import web.historic.repositories.HistoricRepositories;
-import web.sharedobject.model.Patient;
 
 @Service
 @ComponentScan({"web.historic.proxy", "web.historic.repositories"})

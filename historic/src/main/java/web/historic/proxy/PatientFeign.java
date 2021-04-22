@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import web.sharedobject.model.Patient;
+import web.historic.model.Patient;
 
 @FeignClient(value = "microservice-patient", url = "http://localhost:8081")
 public interface PatientFeign {
