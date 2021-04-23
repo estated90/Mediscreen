@@ -50,6 +50,6 @@ public class HistoricController {
     public ResponseEntity<Historic> postHistoric(@RequestBody @Valid HistoricDto historicDto) throws HistoryNotFoundException{
 	logger.info("Creating the history for patient {}", historicDto.getPatient());
 	Historic historic = historicService.updateistoric(HistoricUtils.convertDtoToHistoric(historicDto));
-	return new ResponseEntity<Historic>(historic, HttpStatus.CREATED);
+	return new ResponseEntity<Historic>(historic, HttpStatus.OK);
     }
 }

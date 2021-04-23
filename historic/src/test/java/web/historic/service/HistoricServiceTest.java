@@ -4,7 +4,8 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,9 +24,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,8 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dozermapper.core.inject.Inject;
 
 import web.historic.dto.HistoricDto;
-import web.historic.model.DatabaseSequence;
-import web.historic.model.Historic;
 import web.historic.model.Patient;
 import web.historic.proxy.PatientFeign;
 import web.historic.repositories.HistoricRepositories;
@@ -89,6 +85,101 @@ class HistoricServiceTest {
 				.andExpect(jsonPath("$.practitionnerNotesRecommandation",
 						is(historic.getPractitionnerNotesRecommandation())))
 				.andExpect(jsonPath("$.id", is(1)));
+		mockMvc.perform(MockMvcRequestBuilders.get("/historic/4")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].patId", is(historic.getPatId())))
+				.andExpect(jsonPath("$[0].patient", is(historic.getPatient())))
+				.andExpect(jsonPath("$[0].practitionnerNotesRecommandation",
+						is(historic.getPractitionnerNotesRecommandation())))
+				.andExpect(jsonPath("$[0].id", is(1)));
+		historic.setId(1);
+		historic.setPractitionnerNotesRecommandation("Some new note for tests");
+		mockMvc.perform(MockMvcRequestBuilders.post("/historic/update").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(historic))).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(jsonPath("$.patId", is(historic.getPatId())))
+				.andExpect(jsonPath("$.patient", is(historic.getPatient())))
+				.andExpect(jsonPath("$.practitionnerNotesRecommandation",
+						is(historic.getPractitionnerNotesRecommandation())))
+				.andExpect(jsonPath("$.id", is(1)));
+	}
+
+	@Test
+	@Order(2)
+	void whenSendingIncorrectData_thenAnswerErros() throws Exception {
+		String historic = "{\"patient\":\"\",\"patId\":-1,\"practitionnerNotesRecommandation\":\"\"}";
+		mockMvc.perform(put("/historic/create").contentType(MediaType.APPLICATION_JSON).content(historic))
+				.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isArray())
+				.andExpect(jsonPath("$.errors", hasItem("practitionnerNotesRecommandation: The note is mandatory")))
+				.andExpect(jsonPath("$.errors", hasItem("patient: Patient name is mandatory")))
+				.andExpect(jsonPath("$.errors", hasItem("patId: Patient id is a positive number")));
+		historic = "{}";
+		mockMvc.perform(put("/historic/create").contentType(MediaType.APPLICATION_JSON).content(historic))
+				.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isArray())
+				.andExpect(jsonPath("$.errors", hasItem("practitionnerNotesRecommandation: The note cannot be null")))
+				.andExpect(jsonPath("$.errors", hasItem("practitionnerNotesRecommandation: The note is mandatory")))
+				.andExpect(jsonPath("$.errors", hasItem("patient: Patient name is mandatory")))
+				.andExpect(jsonPath("$.errors", hasItem("patient: Patient name cannot be null")))
+				.andExpect(jsonPath("$.errors", hasItem("patId: Patient id is a positive number")));
+	}
+
+	@Test
+	@Order(3)
+	void whenReceivingText_thenReturnUnsupported() throws Exception {
+		String historic = "{\"patient\":\"test\",\"patId\":1,\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
+		mockMvc.perform(put("/historic/create").contentType(MediaType.TEXT_PLAIN).content(historic))
+				.andExpect(status().isUnsupportedMediaType()).andExpect(jsonPath("$.errors").isArray())
+				.andExpect(jsonPath("$.errors",
+						hasItem("text/plain media type is not supported. Supported media types are application/jso")))
+				.andExpect(jsonPath("$.message", is("Content type 'text/plain' not supported")));
+	}
+
+	@Test
+	@Order(4)
+	void whenErroTypeRequest_thenBadRequest() throws Exception {
+		mockMvc.perform(post("/historic/1")).andExpect(status().isMethodNotAllowed())
+				.andExpect(jsonPath("$.errors").isArray()).andExpect(jsonPath("$.errors[0]",
+						is("POST method is not supported for this request. Supported methods are GET ")));
+	}
+
+	@Test
+	@Order(6)
+	void whenWrongInput_thenAlertUser() throws Exception {
+		String historic = "{\"patient\":\"test\",\"patId\":\"n\",\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
+		mockMvc.perform(get("/historic/create").contentType(MediaType.APPLICATION_JSON).content(historic))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.message", is(
+						"Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: \"create\"")))
+				.andExpect(jsonPath("$.errors", hasItem("id should be of type int")));
+	}
+
+	@Test
+	@Order(7)
+	void whenNoHistoric_thenAlertUser() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/historic/0"))
+				.andExpect(MockMvcResultMatchers.status().isNotFound())
+				.andExpect(jsonPath("$.message", is("No history has been found for patient 0")))
+				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
+	}
+
+	@Test
+	@Order(9)
+	void whenUpdatingPatientNotInDb_thenAlertUser() throws Exception {
+		String historic = "{\"patient\":\"test\",\"patId\":80,\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
+		mockMvc.perform(
+				MockMvcRequestBuilders.put("/historic/create").contentType(MediaType.APPLICATION_JSON).content(historic))
+				.andExpect(MockMvcResultMatchers.status().isNotFound())
+				.andExpect(jsonPath("$.message", is("This patient do not exist. Enable to attach historic")))
+				.andExpect(jsonPath("$.errors", hasItem("No patient in DB with that id")));;
+	}
+	
+	@Test
+	@Order(9)
+	void whenUpdatingHistoryNotInDb_thenAlertUser() throws Exception {
+		String historic = "{\"id\":20,\"patient\":\"test\",\"patId\":80,\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/historic/update").contentType(MediaType.APPLICATION_JSON).content(historic))
+				.andExpect(MockMvcResultMatchers.status().isNotFound())
+				.andExpect(jsonPath("$.message", is("No history has been found with id 20")))
+				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
 	}
 
 	public static String asJsonString(final Object obj) {

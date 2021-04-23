@@ -1,17 +1,21 @@
 
 package web.historic.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class HistoricDto {
 
     private int id;
-    @NotNull(message="Patient name is mandatory")
+    @NotBlank(message="Patient name is mandatory")
+    @NotNull(message="Patient name cannot be null")
     private String patient;
     @Positive(message = "Patient id is a positive number")
+    @NotNull(message = "Patient id cannot be null")
     private int patId;
-    @NotNull(message = "The note is mandatory")
+    @NotBlank(message = "The note is mandatory")
+    @NotNull(message = "The note cannot be null")
     private String practitionnerNotesRecommandation;
     
     /**

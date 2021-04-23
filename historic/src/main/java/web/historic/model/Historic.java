@@ -18,19 +18,6 @@ public class Historic {
     public Historic() {}
     
     /**
-     * @param id
-     * @param patient
-     * @param patId
-     * @param practitionnerNotesRecommandation
-     */
-    public Historic(int id, String patient, int patId, String practitionnerNotesRecommandation) {
-	super();
-	this.id = id;
-	this.patient = patient;
-	this.patId = patId;
-	this.practitionnerNotesRecommandation = practitionnerNotesRecommandation;
-    }
-    /**
      * @return the id
      */
     public int getId() {
