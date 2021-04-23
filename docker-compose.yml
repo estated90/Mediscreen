@@ -1,20 +1,29 @@
 version: '3.3'
 services:
-  personalinfo:
-   build: ./personalInfo/DockerFile
-   restart: always
-   ports: 
-     - "8081:8081"
-   container_name: Mediscreen  
-  mysql-docker:
-      image: mysql:8.0
+  mediscreen-db:
+      image: mysql
+      container_name: mediscreen-db
       environment:
-        MYSQL_USER: user
-        MYSQL_ROOT_PASSWORD: adminadmin
-        MYSQL_PASSWORD: adminadmin
         MYSQL_DATABASE: mediscreen
+        MYSQL_USER: user
+        MYSQL_PASSWORD: adminadmin
+        MYSQL_ROOT_PASSWORD: adminadmin
+        MYSQL_ROOT_HOST: '%'
       ports:
         - "3306:3306"
-      expose:
-        - '3306'
-      container_name: mediscreen_db
+      restart: always
+  personalinfo:
+    depends_on: 
+      - mediscreen-db
+    links:
+      - mediscreen-db
+    restart: always
+    # will build ./personalInfo/DockerFile
+    build: ./personalInfo/DockerFile
+    working_dir: /personalInfo
+    volumes:
+      - ./:/personalinfo
+      - ~/.m2:/root/.m2
+    ports:
+      - "8081:8081"
+    command: "mvn clean spring-boot:run" 
