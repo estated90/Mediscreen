@@ -9,18 +9,14 @@ ul {
 li {
   float: left;
   padding: 14px 16px;
-  li {
-    float: left;
+  a {
+    color: white;
+    text-align: center;
     padding: 14px 16px;
-    a {
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 18px;
-      &:hover {
-        background-color: #111;
-      }
+    text-decoration: none;
+    font-size: 18px;
+    &:hover {
+      background-color: #111;
     }
   }
 }
