@@ -18,7 +18,10 @@ export class PatientEditComponent implements OnInit, OnDestroy {
   doAsyncObservableThing!: Observable<unknown>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private patientService: PatientService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
+              private patientService: PatientService,
+              private router: Router) { }
 
   ngOnDestroy(){
     this.destroy$.next(true);
@@ -73,11 +76,8 @@ export class PatientEditComponent implements OnInit, OnDestroy {
 
   returnToPatient(){
     this.patientService.returnToPatient();
-}
+  }
 
 }
 
-function takeUntil(destroy$: any) {
-  throw new Error('Function not implemented.');
-}
 
