@@ -27,11 +27,15 @@ export class PatientViewComponent implements OnInit {
   }
 
   goToPatient(id: number){
-    this.router.navigate(['/patient', id])
+    this.router.navigate(['/patient', id]);
   }
 
   goToEditPatient(id: number){
-    this.router.navigate(['/patient','edit', id])
+    this.router.navigate(['/patient','edit', id]);
+  }
+
+  goToHistoric(id: number){
+    this.router.navigate(['/patient', 'historic', id]);
   }
 
 }

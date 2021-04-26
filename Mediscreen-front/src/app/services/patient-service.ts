@@ -8,13 +8,7 @@ import { retry, catchError } from 'rxjs/operators';
 @Injectable()
 export class PatientService {
 
-  patientsSubject = new Subject<any[]>();
-  patientSubject = new Subject<any>();
-
-  private patients = [];
-  private patient!: Patient;
   stringJson: any;
-  asyncResult: void;
   constructor(private httpClient: HttpClient, private router: Router){};
 
   // Http Options
@@ -25,14 +19,6 @@ export class PatientService {
   }
 
   private apiUrl: string = 'http://localhost:8081/patient';
-
-  emitPatientsSubject(){
-    this.patientsSubject.next(this.patients.slice());
-  }
-
-  emitPatientSubject(){
-    this.patientSubject.next(this.patient);
-  }
 
   getPatientById(id: number): Observable<Patient>{
     return this.httpClient.get<Patient>(this.apiUrl + '/' + id, { responseType: 'json' }).pipe(retry(3), catchError(this.handleError));

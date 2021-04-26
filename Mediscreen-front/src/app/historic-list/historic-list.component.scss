@@ -21,3 +21,53 @@
     }
   }
 }
+
+.cards{
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-style: solid;
+  border-width: 1px;
+  width: 100%;
+  margin-bottom: 15px;
+  .inside{
+    .boxInfo{
+      height: 50px;
+      width: 100%;
+      display: inline-block;
+      background-color: #4CAF50;
+      color: white;
+      margin: auto;
+      h3{
+        margin-left: 15px;
+        font-size: 20px;
+        font-weight: 400;
+        margin-right: 50px;
+      }
+      .informations{
+        float: left;
+        padding-top: 10px;
+      }
+      .id{
+        margin-left: 50%;
+      }
+    }
+    .notes{
+      float:none;
+      padding: 8px;
+    }
+  }
+}
+
+.buttons {
+  float: right;
+  overflow: visible;
+  width: 21%;
+  .btn-back{
+    float: right;
+    border-color: silver;
+    &:hover{
+      border-color: silver;
+      background-color: silver;
+    }
+  }
+}

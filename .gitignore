@@ -27,6 +27,7 @@ hs_err_pid*
 personalInfo/.mvn/
 personalInfo/.gitignore
 personalInfo/.settings
+personalInfo/target/
 
 Mediscreen-front/dist/
 Mediscreen-front/.vscode/

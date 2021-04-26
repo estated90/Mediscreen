@@ -1,6 +1,26 @@
 <header class="col-xs-12">
   <div class="container-header">
-    <h2 class="first-line">Historic of patient {{patient.id}} :</h2>
-    <button class="btn btn-standard" (click)="goToNewHistoric(patient.id)">Add Historic</button>
+    <h2 class="first-line">Historic of patient :</h2>
+    <button class="btn btn-standard" (click)="goToNewHistoric()">Add Historic</button>
   </div>
 </header>
+<body>
+  <div class="cards" *ngFor="let historic of historics">
+    <div class="inside">
+      <div class="boxInfo">
+        <h3 class="informations">{{historic.patient}}</h3>
+        <div class="id">
+          <label class="informations">Patient Id :</label>
+          <p class="informations">{{ historic.patId }}</p>
+        </div>
+      </div>
+      <div class="notes">
+        <label>Practitionner notes :</label>
+        <p>{{ historic.practitionnerNotesRecommandation }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="buttons">
+    <button type="button" class="btn btn-back" (click)="returnToPatient()">Return</button>
+  </div>
+</body>
