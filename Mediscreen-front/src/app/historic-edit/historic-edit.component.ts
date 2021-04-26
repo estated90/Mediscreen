@@ -1,30 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 import { Historic } from '../models/historic.model';
 import { Patient } from '../models/patient.model';
 import { HistoricService } from '../services/historic-service';
 import { PatientService } from '../services/patient-service';
 
 @Component({
-  selector: 'app-historic-add',
-  templateUrl: './historic-add.component.html',
-  styleUrls: ['./historic-add.component.scss']
+  selector: 'app-historic-edit',
+  templateUrl: './historic-edit.component.html',
+  styleUrls: ['./historic-edit.component.scss']
 })
-export class HistoricAddComponent implements OnInit {
+export class HistoricEditComponent implements OnInit {
 
   id = this.route.snapshot.params['id'];
   historicForm!: FormGroup;
   patient: Patient = <Patient>{};
   historic: Historic = <Historic>{};
-  
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private formBuilder: FormBuilder, 
-              private patientService: PatientService,
-              private historicService: HistoricService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+  constructor(private formBuilder: FormBuilder,
+    private historicService: HistoricService,
+    private route: ActivatedRoute,
+    private patientService: PatientService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.patientService.getPatientById(+this.id).subscribe(patient => {
@@ -32,6 +33,12 @@ export class HistoricAddComponent implements OnInit {
       this.patient= patient;
     });
     this.initForm();
+  }
+
+  ngOnDestroy(){
+    this.destroy$.next(true);
+    // Unsubscribe from the subject
+    this.destroy$.unsubscribe();
   }
 
   initForm() {
@@ -54,7 +61,15 @@ export class HistoricAddComponent implements OnInit {
     });
   }
 
+  updateForm(){
+    this.historicForm.patchValue({'patId': this.historic.patId})
+    this.historicForm.patchValue({'patient': this.historic.patient})
+    this.historicForm.patchValue({'id': this.historic.id})
+    this.historicForm.patchValue({'practitionnerNotesRecommandation': this.historic.practitionnerNotesRecommandation})
+  }
+
   returnToHistoric(){
     this.router.navigate(['/patient', 'historic', this.id]);
-}
+  }
+
 }

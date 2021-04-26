@@ -17,6 +17,7 @@ import { PatientEditComponent } from './patient-edit/patient-edit.component'
 import { CommonModule } from '@angular/common';
 import { HistoricListComponent } from './historic-list/historic-list.component';
 import { HistoricAddComponent } from './historic-add/historic-add.component';
+import { HistoricEditComponent } from './historic-edit/historic-edit.component';
 
 const appRoutes: Routes = [
   { path: 'patient', component: PatientViewComponent },
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
     FourOhFourComponent,
     PatientEditComponent,
     HistoricListComponent,
-    HistoricAddComponent
+    HistoricAddComponent,
+    HistoricEditComponent
   ],
   imports: [
     BrowserModule,
