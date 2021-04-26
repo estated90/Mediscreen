@@ -1,0 +1,23 @@
+.container-header{
+  display: inline-block;
+  width: 90em;
+  margin-block-end: 1em;
+  .first-line  {
+    display: inline-block;
+  }
+  .btn-standard{
+    border-color: #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+    float: right;
+    margin-top: 0.8%;
+    opacity: 0.6;
+    transition: 0.3s;
+    &:hover {
+      border-color: #4CAF50;
+      background-color:#4CAF50;
+      color: white;
+      opacity: 1;
+    }
+  }
+}

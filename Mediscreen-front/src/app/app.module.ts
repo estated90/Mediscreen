@@ -1,3 +1,4 @@
+import { HistoricService } from './services/historic-service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
@@ -14,11 +15,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import { PatientEditComponent } from './patient-edit/patient-edit.component'
 import { CommonModule } from '@angular/common';
+import { HistoricListComponent } from './historic-list/historic-list.component';
+import { HistoricAddComponent } from './historic-add/historic-add.component';
 
 const appRoutes: Routes = [
   { path: 'patient', component: PatientViewComponent },
   { path: 'patient/add', component: AddPatientComponent },
   { path: 'patient/edit/:id', component: PatientEditComponent},
+  { path: 'patient/historic/:id', component: HistoricListComponent},
+  { path: 'patient/historic/add/:id', component: HistoricAddComponent},
   { path: '', component: PatientViewComponent },
   { path: 'not-found', component: FourOhFourComponent },
   { path: '**', redirectTo: '/not-found' }
@@ -30,7 +35,9 @@ const appRoutes: Routes = [
     PatientViewComponent,
     AddPatientComponent,
     FourOhFourComponent,
-    PatientEditComponent
+    PatientEditComponent,
+    HistoricListComponent,
+    HistoricAddComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,8 @@ const appRoutes: Routes = [
     MatIconModule
   ],
   providers: [
-    PatientService
+    PatientService,
+    HistoricService
   ],
   bootstrap: [AppComponent]
 })
