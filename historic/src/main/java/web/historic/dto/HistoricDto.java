@@ -17,6 +17,7 @@ public class HistoricDto {
     @NotNull(message = "Patient id cannot be null")
     private int patId;
     private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     @NotBlank(message = "The note is mandatory")
     @NotNull(message = "The note cannot be null")
     private String practitionnerNotesRecommandation;
@@ -80,6 +81,18 @@ public class HistoricDto {
 	 */
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+	/**
+	 * @return the modifiedAt
+	 */
+	public LocalDateTime getModifiedAt() {
+		return modifiedAt;
+	}
+	/**
+	 * @param modifiedAt the modifiedAt to set
+	 */
+	public void setModifiedAt(LocalDateTime modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}  
     
 }

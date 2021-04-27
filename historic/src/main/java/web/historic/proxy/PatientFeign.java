@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import web.historic.model.Patient;
 
-@FeignClient(value = "microservice-patient", url = "http://localhost:8081")
+@FeignClient(value = "microservice-patient", url = "http://personalinfo:8081")
 public interface PatientFeign {
     
     @GetMapping(value = "/patient/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

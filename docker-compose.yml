@@ -13,6 +13,7 @@ services:
         - "3306:3306"
       restart: always
   personalinfo:
+    container_name: personalinfo
     depends_on: 
       - mediscreen-db
     links:
@@ -40,6 +41,7 @@ services:
       - 0.0.0.0:27017:27017/tcp
     restart: always
   historic:
+    container_name: patientHistory
     depends_on: 
       - mongodb
     links:
