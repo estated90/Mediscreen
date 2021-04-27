@@ -25,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'patient/edit/:id', component: PatientEditComponent},
   { path: 'patient/historic/:id', component: HistoricListComponent},
   { path: 'patient/historic/add/:id', component: HistoricAddComponent},
+  { path: 'patient/historic/edit/:id', component: HistoricEditComponent},
   { path: '', component: PatientViewComponent },
   { path: 'not-found', component: FourOhFourComponent },
   { path: '**', redirectTo: '/not-found' }
@@ -39,7 +40,7 @@ const appRoutes: Routes = [
     PatientEditComponent,
     HistoricListComponent,
     HistoricAddComponent,
-    HistoricEditComponent
+    HistoricEditComponent,
   ],
   imports: [
     BrowserModule,

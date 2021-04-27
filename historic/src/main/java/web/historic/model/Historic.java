@@ -1,5 +1,7 @@
 package web.historic.model;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,11 +15,41 @@ public class Historic {
     private int id;
     private String patient;
     private int patId;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     private String practitionnerNotesRecommandation;
     
     public Historic() {}
     
     /**
+	 * @return the createdAt
+	 */
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * @return the modifiedAt
+	 */
+	public LocalDateTime getModifiedAt() {
+		return modifiedAt;
+	}
+
+	/**
+	 * @param modifiedAt the modifiedAt to set
+	 */
+	public void setModifiedAt(LocalDateTime modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	/**
      * @return the id
      */
     public int getId() {

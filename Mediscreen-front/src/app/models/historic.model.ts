@@ -3,6 +3,8 @@ export class Historic {
     patId!: number;
     patient!: string;
     practitionnerNotesRecommandation!: string;
+    createdAt!: Date ;
+    modifiedAt!: Date ;
 
     constructor(){}
 

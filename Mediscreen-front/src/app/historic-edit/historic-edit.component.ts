@@ -28,9 +28,10 @@ export class HistoricEditComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.patientService.getPatientById(+this.id).subscribe(patient => {
-      console.log(patient);
-      this.patient= patient;
+    this.historicService.getHistoricById(this.id).subscribe(historic => {
+      console.log(historic);
+      this.historic= historic;
+      this.updateForm();
     });
     this.initForm();
   }
@@ -43,8 +44,10 @@ export class HistoricEditComponent implements OnInit {
 
   initForm() {
     this.historicForm = this.formBuilder.group({
+      id:[''],
       patId:[''],
       patient:[''],
+      createdAt:[''],
       practitionnerNotesRecommandation: ['', Validators.required],
     })
   }
@@ -52,12 +55,10 @@ export class HistoricEditComponent implements OnInit {
   onSubmitForm() {
     console.log('adding a new historic')
     const formValue = this.historicForm.value;
-    this.historic.patId = this.patient.id;
-    this.historic.patient = this.patient.family + ' ' + this.patient.given;
     this.historic.practitionnerNotesRecommandation = formValue['practitionnerNotesRecommandation'];
-    this.historicService.addHistoric(this.historic).subscribe(historic =>{
+    this.historicService.editHistoric(this.historic).subscribe(historic =>{
       console.log(historic);
-      this.router.navigate(['/patient', 'historic', this.id]);
+      this.router.navigate(['/patient', 'historic', this.historic.patId]);
     });
   }
 
@@ -65,11 +66,12 @@ export class HistoricEditComponent implements OnInit {
     this.historicForm.patchValue({'patId': this.historic.patId})
     this.historicForm.patchValue({'patient': this.historic.patient})
     this.historicForm.patchValue({'id': this.historic.id})
+    this.historicForm.patchValue({'createdAt': this.historic.createdAt})
     this.historicForm.patchValue({'practitionnerNotesRecommandation': this.historic.practitionnerNotesRecommandation})
   }
 
   returnToHistoric(){
-    this.router.navigate(['/patient', 'historic', this.id]);
+    this.router.navigate(['/patient', 'historic', this.historic.patId]);
   }
 
 }

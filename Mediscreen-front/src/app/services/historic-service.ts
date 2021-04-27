@@ -8,8 +8,11 @@ import { Historic } from '../models/historic.model';
 @Injectable()
 export class HistoricService {
 
+
+
     stringJson: any;
     constructor(private httpClient: HttpClient, private router: Router){};
+    private historic!:Observable<Historic>;
 
     // Http Options
     httpOptions = {
@@ -24,11 +27,21 @@ export class HistoricService {
         return this.httpClient.get<Historic[]>(this.apiUrl + '/' + id, { responseType: 'json' }).pipe(retry(3), catchError(this.handleError));
     }
 
+    getHistoricById(id: number): Observable<Historic> {
+      return this.httpClient.get<Historic>(this.apiUrl + '/get/' + id, { responseType: 'json' }).pipe(retry(3), catchError(this.handleError));
+    }
+
     addHistoric(historic:Historic): Observable<Historic>{
         console.log('Sending new historic to service '+historic)
         let API_URL = `${this.apiUrl}/create`;
         this.stringJson = JSON.stringify(historic);
         return this.httpClient.put<Historic>(API_URL, this.stringJson,this.httpOptions).pipe(retry(1), catchError(this.handleError));
+    }
+
+    editHistoric(historic: Historic) {
+      this.stringJson = JSON.stringify(historic);
+      let API_URL = `${this.apiUrl}/update`;
+      return this.httpClient.post<Historic>(API_URL, this.stringJson,this.httpOptions).pipe(retry(1), catchError(this.handleError));
     }
 
     // Handle Errors

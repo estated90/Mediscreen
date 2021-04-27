@@ -5,6 +5,28 @@
   .first-line  {
     display: inline-block;
   }
+
+}
+.boxInfo{
+  height: 50px;
+  width: 100%;
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  margin: auto;
+  h3{
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: 400;
+    margin-right: 50px;
+  }
+  .informations{
+    float: left;
+    padding-top: 10px;
+  }
+  .id{
+    margin-left: 50%;
+  }
   .btn-standard{
     border-color: #4CAF50;
     background-color: white;
@@ -13,15 +35,15 @@
     margin-top: 0.8%;
     opacity: 0.6;
     transition: 0.3s;
+    margin-right: 1em;
     &:hover {
-      border-color: #4CAF50;
-      background-color:#4CAF50;
-      color: white;
+      border-color: white;
+      background-color: white;
+      color: #4CAF50;
       opacity: 1;
     }
   }
 }
-
 .cards{
   border: 1px solid #ddd;
   padding: 8px;
@@ -29,31 +51,35 @@
   border-width: 1px;
   width: 100%;
   margin-bottom: 15px;
-  .inside{
-    .boxInfo{
-      height: 50px;
-      width: 100%;
-      display: inline-block;
-      background-color: #4CAF50;
+  display: flex;
+  justify-content: left;
+  align-items: top;
+  .notes{
+    padding: 8px;
+    width:100%;
+    div{
+      background-color: #ddd;
+      padding: 3px 3px;
+      #date{
+        display: inline;
+      }
+  }
+  }
+  .btn-edit{
+    height: 2.2em;
+    width : 2.2em;
+    border-color: #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+    padding: 3px 3px;
+    margin-left: 0.5em;
+    &:hover {
+      border-color: #4CAF50;
+      background-color:#4CAF50;
       color: white;
-      margin: auto;
-      h3{
-        margin-left: 15px;
-        font-size: 20px;
-        font-weight: 400;
-        margin-right: 50px;
-      }
-      .informations{
-        float: left;
-        padding-top: 10px;
-      }
-      .id{
-        margin-left: 50%;
-      }
     }
-    .notes{
-      float:none;
-      padding: 8px;
+    mat-icon{
+      vertical-align:middle;
     }
   }
 }

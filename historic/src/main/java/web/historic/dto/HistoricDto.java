@@ -1,6 +1,8 @@
 
 package web.historic.dto;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -14,6 +16,7 @@ public class HistoricDto {
     @Positive(message = "Patient id is a positive number")
     @NotNull(message = "Patient id cannot be null")
     private int patId;
+    private LocalDateTime createdAt;
     @NotBlank(message = "The note is mandatory")
     @NotNull(message = "The note cannot be null")
     private String practitionnerNotesRecommandation;
@@ -66,6 +69,17 @@ public class HistoricDto {
     public void setPractitionnerNotesRecommandation(String practitionnerNotesRecommandation) {
         this.practitionnerNotesRecommandation = practitionnerNotesRecommandation;
     }
-        
+	/**
+	 * @return the createdAt
+	 */
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}  
     
 }

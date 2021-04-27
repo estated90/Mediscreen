@@ -1,5 +1,6 @@
 package web.historic.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,7 @@ public class HistoricService {
 		if (patientFeign.getPatientById(historic.getPatId()) != null) {
 			logger.info("History inserted");
 			historic.setId(sequenceGeneratorService.generateSequence(Historic.SEQUENCE_NAME));
+			historic.setCreatedAt(LocalDateTime.now());
 			return historicRepository.insert(historic);
 		} else {
 			logger.error("This patient do not exist");
@@ -54,18 +56,30 @@ public class HistoricService {
 		}
 	}
 
-	public Historic updateistoric(Historic historic) throws HistoryNotFoundException {
+	public Historic updateHistoric(Historic historic) throws HistoryNotFoundException {
 		logger.info("Service to update patient history into DB : {}", historic.getPatient());
 		Optional<Historic> historicRetrieved = historicRepository.findById(historic.getId());
 		Patient patient = patientFeign.getPatientById(historic.getPatId());
 		if (historicRetrieved.isPresent() & patient != null) {
 			logger.info("history is being updated");
+			historic.setModifiedAt(LocalDateTime.now());
 			historicRepository.save(historic);
 			logger.info("Update successful");
 			return historic;
 		} else {
 			logger.error("The historic of the patient was not found");
 			throw new HistoryNotFoundException("No history has been found with id " + historic.getId());
+		}
+	}
+
+	public Optional<Historic> getHistoryId(int id) throws HistoryNotFoundException {
+		logger.info("Service to get history from DB");
+		Optional<Historic> historic = historicRepository.findById(id);
+		if (historic.isPresent()) {
+			return historic;
+		} else {
+			logger.error("No occurance were found in DB for history {}", id);
+			throw new HistoryNotFoundException("No history has been found for id " + id);
 		}
 	}
 

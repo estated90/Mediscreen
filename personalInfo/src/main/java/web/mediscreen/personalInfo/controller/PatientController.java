@@ -31,35 +31,38 @@ import web.mediscreen.personalInfo.utils.PatientUtils;
 @CrossOrigin(origins = "http://localhost:4200")
 public class PatientController {
 
-    private static final Logger logger = LogManager.getLogger(PatientController.class);
-    @Autowired
-    private PatientService patientService;
-    @Autowired
-    private PatientUtils utils;
+	private static final Logger logger = LogManager.getLogger(PatientController.class);
+	@Autowired
+	private PatientService patientService;
+	@Autowired
+	private PatientUtils utils;
 
-    @GetMapping(value = "/patient/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Patient> getAllPatient() {
-	logger.info("Getting all patient lists");
-	return patientService.gettingAllPatient();
-    }
+	@GetMapping(value = "/patient/list", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Patient> getAllPatient() {
+		logger.info("Getting all patient lists");
+		return patientService.gettingAllPatient();
+	}
 
-    @GetMapping(value = "/patient/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Patient> getPatientById(@PathVariable int id) throws PatientNoExistException {
-	logger.info("Getting patient with id {}", id);
-	return patientService.getPatientById(id);
-    }
-    @PutMapping(path = "/patient/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> putPatient(@RequestBody @Valid PatientDto patient) throws DbSaveException, PatientExistException {
-	logger.info("Creating new patient : {}", patient);
-	patientService.addNewPatient(utils.convertDtoToPatient(patient));
-	return new ResponseEntity<>(HttpStatus.CREATED);
+	@GetMapping(value = "/patient/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Optional<Patient> getPatientById(@PathVariable int id) throws PatientNoExistException {
+		logger.info("Getting patient with id {}", id);
+		return patientService.getPatientById(id);
+	}
 
-    }
-    @CrossOrigin(origins = "http://localhost:4200/")
-    @PostMapping(path = "/patient/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> postPatient(@RequestBody @Valid PatientDto patient) throws PatientNoExistException {
-	logger.info("Updating patient : {}", patient.getId());
-	return ResponseEntity.ok(patientService.updatingPatient(utils.convertDtoToPatient(patient)));
+	@PutMapping(path = "/patient/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Patient> putPatient(@RequestBody @Valid PatientDto patient)
+			throws DbSaveException, PatientExistException {
+		logger.info("Creating new patient : {}", patient);
+		patientService.addNewPatient(utils.convertDtoToPatient(patient));
+		return new ResponseEntity<>(HttpStatus.CREATED);
 
-    }
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200/")
+	@PostMapping(path = "/patient/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Patient> postPatient(@RequestBody @Valid PatientDto patient) throws PatientNoExistException {
+		logger.info("Updating patient : {}", patient.getId());
+		return ResponseEntity.ok(patientService.updatingPatient(utils.convertDtoToPatient(patient)));
+
+	}
 }
