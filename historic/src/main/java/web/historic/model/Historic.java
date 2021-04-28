@@ -19,7 +19,9 @@ public class Historic {
     private LocalDateTime modifiedAt;
     private String practitionnerNotesRecommandation;
     
-    public Historic() {}
+    public Historic() {
+    	//Default constructor
+    }
     
     /**
 	 * @return the createdAt

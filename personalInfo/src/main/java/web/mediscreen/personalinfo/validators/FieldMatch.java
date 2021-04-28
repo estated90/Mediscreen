@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.validators;
+package web.mediscreen.personalinfo.validators;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

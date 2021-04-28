@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import web.historic.exception.HistoryNotFoundException;
 import web.historic.exception.PatientNotFoundException;
 import web.historic.model.Historic;
-import web.historic.model.Patient;
 import web.historic.proxy.PatientFeign;
 import web.historic.repositories.HistoricRepositories;
 
@@ -35,7 +34,7 @@ public class HistoricService {
 	public List<Historic> getHistoryOfPatient(int id) throws HistoryNotFoundException {
 		logger.info("Service to get patient history from DB");
 		List<Historic> historic = historicRepository.findByPatientId(id);
-		if (historic.size() >= 1) {
+		if (!historic.isEmpty()) {
 			return historic;
 		} else {
 			logger.error("No occurance were found in DB for user {}", id);
@@ -59,8 +58,8 @@ public class HistoricService {
 	public Historic updateHistoric(Historic historic) throws HistoryNotFoundException {
 		logger.info("Service to update patient history into DB : {}", historic.getPatient());
 		Optional<Historic> historicRetrieved = historicRepository.findById(historic.getId());
-		Patient patient = patientFeign.getPatientById(historic.getPatId());
-		if (historicRetrieved.isPresent() & patient != null) {
+		var patient = patientFeign.getPatientById(historic.getPatId());
+		if (historicRetrieved.isPresent() && patient != null) {
 			logger.info("history is being updated");
 			historic.setModifiedAt(LocalDateTime.now());
 			historicRepository.save(historic);

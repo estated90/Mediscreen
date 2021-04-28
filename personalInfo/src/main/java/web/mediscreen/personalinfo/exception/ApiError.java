@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.exception;
+package web.mediscreen.personalinfo.exception;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.service;
+package web.mediscreen.personalinfo.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 
-import web.mediscreen.personalInfo.exception.DbSaveException;
-import web.mediscreen.personalInfo.exception.PatientExistException;
-import web.mediscreen.personalInfo.exception.PatientNoExistException;
-import web.mediscreen.personalInfo.model.Patient;
-import web.mediscreen.personalInfo.repositories.PatientRepository;
+import web.mediscreen.personalinfo.exception.DbSaveException;
+import web.mediscreen.personalinfo.exception.PatientExistException;
+import web.mediscreen.personalinfo.exception.PatientNoExistException;
+import web.mediscreen.personalinfo.model.Patient;
+import web.mediscreen.personalinfo.repositories.PatientRepository;
 
 @Service
 @Transactional

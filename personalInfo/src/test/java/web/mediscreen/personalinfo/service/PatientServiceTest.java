@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.service;
+package web.mediscreen.personalinfo.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
@@ -70,9 +70,9 @@ class PatientServiceTest {
 		.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isArray())
 		.andExpect(jsonPath("$.errors", hasSize(5)))
 		.andExpect(jsonPath("$.errors", hasItem("address: Adress cannot be blank")))
-		.andExpect(jsonPath("$.errors", hasItem("family: Family name is mandatory")))
+		.andExpect(jsonPath("$.errors", hasItem("family: Family name cannot be null")))
 		.andExpect(jsonPath("$.errors", hasItem("phone: Phone cannot be blank")))
-		.andExpect(jsonPath("$.errors", hasItem("given: Given name is mandatory")))
+		.andExpect(jsonPath("$.errors", hasItem("given: Given name cannot be null")))
 		.andExpect(jsonPath("$.errors", hasItem("patientDto: You can only choose F or M")));
     }
 

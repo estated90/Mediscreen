@@ -10,7 +10,9 @@ public class DatabaseSequence {
     private String id;
     private int seq;
     
-    public DatabaseSequence() {}
+    public DatabaseSequence() {
+    	//Default constructor
+    }
     
     /**
      * @return the seq

@@ -37,28 +37,30 @@ public class HistoricController {
 	@GetMapping(value = "/historic/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Historic>> getAllHistoryPatient(@PathVariable int id) throws HistoryNotFoundException {
 		logger.info("Getting the history for patient {}", id);
-		return new ResponseEntity<List<Historic>>(historicService.getHistoryOfPatient(id), HttpStatus.OK);
+		return new ResponseEntity<>(historicService.getHistoryOfPatient(id), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/historic/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Optional<Historic>> getHistoryIdPatient(@PathVariable int id) throws HistoryNotFoundException {
 		logger.info("Getting the history id : {}", id);
-		return new ResponseEntity<Optional<Historic>>(historicService.getHistoryId(id), HttpStatus.OK);
+		return new ResponseEntity<>(historicService.getHistoryId(id), HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/historic/create", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Historic> pustHistoric(@RequestBody @Valid HistoricDto historicDto)
 			throws PatientNotFoundException {
-		logger.info("Creating the history for patient {}", historicDto.getPatient());
-		Historic historic = historicService.createNewHistoric(HistoricUtils.convertDtoToHistoric(historicDto));
-		return new ResponseEntity<Historic>(historic, HttpStatus.CREATED);
+		var historic = HistoricUtils.convertDtoToHistoric(historicDto);
+		logger.info("Creating the history for patient {}", historic.getPatient());
+		var historicReturned = historicService.createNewHistoric(HistoricUtils.convertDtoToHistoric(historicDto));
+		return new ResponseEntity<>(historicReturned, HttpStatus.CREATED);
 	}
 
 	@PostMapping(value = "/historic/update", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Historic> postHistoric(@RequestBody @Valid HistoricDto historicDto)
 			throws HistoryNotFoundException {
-		logger.info("Updating the history for patient {}", historicDto.getPatient());
-		Historic historic = historicService.updateHistoric(HistoricUtils.convertDtoToHistoric(historicDto));
-		return new ResponseEntity<Historic>(historic, HttpStatus.OK);
+		var historic = HistoricUtils.convertDtoToHistoric(historicDto);
+		logger.info("Updating the history for patient {}", historic.getPatient());
+		var historicReturned = historicService.updateHistoric(historic);
+		return new ResponseEntity<>(historicReturned, HttpStatus.OK);
 	}
 }

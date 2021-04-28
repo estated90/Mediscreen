@@ -1,10 +1,8 @@
-package web.historic.exception;
+package web.mediscreen.personalinfo.exception;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,15 +13,11 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import feign.FeignException;
 
 /**
  * @author Nico
@@ -51,37 +45,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		}
 		final var apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
 		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleMissingServletRequestPart(final MissingServletRequestPartException ex,
-			final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-		logger.info(ex.getClass().getName());
-		//
-		final String error = ex.getRequestPartName() + " part is missing";
-		final var apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
-		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleMissingServletRequestParameter(
-			final MissingServletRequestParameterException ex, final HttpHeaders headers, final HttpStatus status,
-			final WebRequest request) {
-		logger.info(ex.getClass().getName());
-		//
-		final String error = ex.getParameterName() + " parameter is missing";
-		final var apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
-		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-	}
-
-	//
-
-	@ExceptionHandler(FeignException.BadRequest.class)
-	public ResponseEntity<Object> handleFeignStatusException(FeignException ex, HttpServletResponse response) {
-		logger.info(ex.getClass().getName());
-		final var error = "Error while retrieving the patient";
-		final var apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), error);
-		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 
 	//
@@ -151,8 +114,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		logger.info(ex.getClass().getName());
 		logger.error("error", ex);
 		//
-		final var apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
-				"error occurred");
+		final var apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
 		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 }

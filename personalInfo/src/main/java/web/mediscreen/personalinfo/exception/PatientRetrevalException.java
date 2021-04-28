@@ -1,10 +1,10 @@
-package web.mediscreen.personalInfo.exception;
+package web.mediscreen.personalinfo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class DbSaveException extends Exception {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class PatientRetrevalException extends Exception {
     /**
      * 
      */
@@ -15,7 +15,7 @@ public class DbSaveException extends Exception {
 	/**
 	 * @param message to return
 	 */
-	public DbSaveException(String message) {
+	public PatientRetrevalException(String message) {
 		this.message = message;
 	}
 

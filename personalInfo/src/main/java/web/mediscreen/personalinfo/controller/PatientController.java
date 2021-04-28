@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.controller;
+package web.mediscreen.personalinfo.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import web.mediscreen.personalInfo.dto.PatientDto;
-import web.mediscreen.personalInfo.exception.DbSaveException;
-import web.mediscreen.personalInfo.exception.PatientExistException;
-import web.mediscreen.personalInfo.exception.PatientNoExistException;
-import web.mediscreen.personalInfo.model.Patient;
-import web.mediscreen.personalInfo.service.PatientService;
-import web.mediscreen.personalInfo.utils.PatientUtils;
+import web.mediscreen.personalinfo.dto.PatientDto;
+import web.mediscreen.personalinfo.exception.DbSaveException;
+import web.mediscreen.personalinfo.exception.PatientExistException;
+import web.mediscreen.personalinfo.exception.PatientNoExistException;
+import web.mediscreen.personalinfo.model.Patient;
+import web.mediscreen.personalinfo.service.PatientService;
+import web.mediscreen.personalinfo.utils.PatientUtils;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -63,6 +63,5 @@ public class PatientController {
 	public ResponseEntity<Patient> postPatient(@RequestBody @Valid PatientDto patient) throws PatientNoExistException {
 		logger.info("Updating patient : {}", patient.getId());
 		return ResponseEntity.ok(patientService.updatingPatient(utils.convertDtoToPatient(patient)));
-
 	}
 }

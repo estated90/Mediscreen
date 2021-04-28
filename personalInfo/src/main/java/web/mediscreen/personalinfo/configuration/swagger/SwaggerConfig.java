@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.configuration.swagger;
+package web.mediscreen.personalinfo.configuration.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("web.mediscreen.personalInfo.controller"))
+                .apis(RequestHandlerSelectors.basePackage("web.mediscreen.personalInfo2.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

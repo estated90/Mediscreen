@@ -1,4 +1,4 @@
-package web.mediscreen.personalInfo.validators;
+package web.mediscreen.personalinfo.validators;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import web.mediscreen.personalInfo.dto.PatientDto;
+import web.mediscreen.personalinfo.dto.PatientDto;
 
 /**
  * @author Nico
@@ -20,7 +20,7 @@ public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch
     public boolean isValid(PatientDto patient, final ConstraintValidatorContext context) {
 	try {
 	    String sex = patient.getSex();
-	    boolean checked = false;
+	    var checked = false;
 	    if (sex.equals("M") || sex.equals("F")) {
 		checked = true;
 	    }
