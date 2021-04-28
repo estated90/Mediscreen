@@ -9,6 +9,8 @@ services:
         MYSQL_PASSWORD: adminadmin
         MYSQL_ROOT_PASSWORD: adminadmin
         MYSQL_ROOT_HOST: '%'
+      volumes:
+      - ./personalInfo/DockerFile/init:/docker-entrypoint-initdb.d
       ports:
         - "3306:3306"
       restart: always
