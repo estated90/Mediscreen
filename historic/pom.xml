@@ -9,7 +9,7 @@
 		<version>2.4.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>web.mediscreen</groupId>
+	<groupId>web.historic</groupId>
 	<artifactId>historic</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>historic</name>
