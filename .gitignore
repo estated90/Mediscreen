@@ -29,6 +29,12 @@ personalInfo/.gitignore
 personalInfo/.settings
 personalInfo/target/
 
+historic/.mvn/
+historic/.gitignore
+historic/.settings/
+historic/target/
+historic/bin/
+
 Mediscreen-front/dist/
 Mediscreen-front/.vscode/
 Mediscreen-front/.browserslistrc
