@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dozermapper.core.inject.Inject;
 
 import web.historic.dto.HistoricDto;
+import web.historic.model.Historic;
 import web.historic.model.Patient;
 import web.historic.proxy.PatientFeign;
 import web.historic.repositories.HistoricRepositories;
@@ -85,12 +86,13 @@ class HistoricServiceTest {
 				.andExpect(jsonPath("$.practitionnerNotesRecommandation",
 						is(historic.getPractitionnerNotesRecommandation())))
 				.andExpect(jsonPath("$.id", is(1)));
+		Historic historicReturned = repository.findById(1).get();
 		mockMvc.perform(MockMvcRequestBuilders.get("/historic/4")).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].patId", is(historic.getPatId())))
-				.andExpect(jsonPath("$[0].patient", is(historic.getPatient())))
+				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].patId", is(historicReturned.getPatId())))
+				.andExpect(jsonPath("$[0].patient", is(historicReturned.getPatient())))
 				.andExpect(jsonPath("$[0].practitionnerNotesRecommandation",
-						is(historic.getPractitionnerNotesRecommandation())))
-				.andExpect(jsonPath("$[0].id", is(1)));
+						is(historicReturned.getPractitionnerNotesRecommandation())))
+				.andExpect(jsonPath("$[0].id", is(historicReturned.getId())));
 		historic.setId(1);
 		historic.setPractitionnerNotesRecommandation("Some new note for tests");
 		mockMvc.perform(MockMvcRequestBuilders.post("/historic/update").contentType(MediaType.APPLICATION_JSON)
@@ -100,6 +102,13 @@ class HistoricServiceTest {
 				.andExpect(jsonPath("$.practitionnerNotesRecommandation",
 						is(historic.getPractitionnerNotesRecommandation())))
 				.andExpect(jsonPath("$.id", is(1)));
+		historicReturned = repository.findById(1).get();
+		mockMvc.perform(MockMvcRequestBuilders.get("/historic/get/1")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(jsonPath("$.patId", is(historicReturned.getPatId())))
+				.andExpect(jsonPath("$.patient", is(historicReturned.getPatient())))
+				.andExpect(jsonPath("$.practitionnerNotesRecommandation",
+						is(historicReturned.getPractitionnerNotesRecommandation())))
+				.andExpect(jsonPath("$.id", is(historicReturned.getId())));
 	}
 
 	@Test
@@ -141,6 +150,15 @@ class HistoricServiceTest {
 	}
 
 	@Test
+	@Order(5)
+	void whenIdHistoryNotInDb_thenReturnError() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/historic/get/80"))
+				.andExpect(MockMvcResultMatchers.status().isNotFound())
+				.andExpect(jsonPath("$.message", is("No history has been found for id 80")))
+				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
+	}
+
+	@Test
 	@Order(6)
 	void whenWrongInput_thenAlertUser() throws Exception {
 		String historic = "{\"patient\":\"test\",\"patId\":\"n\",\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
@@ -164,20 +182,19 @@ class HistoricServiceTest {
 	@Order(9)
 	void whenUpdatingPatientNotInDb_thenAlertUser() throws Exception {
 		String historic = "{\"patient\":\"test\",\"patId\":80,\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
-		mockMvc.perform(
-				MockMvcRequestBuilders.put("/historic/create").contentType(MediaType.APPLICATION_JSON).content(historic))
-				.andExpect(MockMvcResultMatchers.status().isNotFound())
+		mockMvc.perform(MockMvcRequestBuilders.put("/historic/create").contentType(MediaType.APPLICATION_JSON)
+				.content(historic)).andExpect(MockMvcResultMatchers.status().isNotFound())
 				.andExpect(jsonPath("$.message", is("This patient do not exist. Enable to attach historic")))
-				.andExpect(jsonPath("$.errors", hasItem("No patient in DB with that id")));;
+				.andExpect(jsonPath("$.errors", hasItem("No patient in DB with that id")));
+		;
 	}
-	
+
 	@Test
-	@Order(9)
+	@Order(10)
 	void whenUpdatingHistoryNotInDb_thenAlertUser() throws Exception {
 		String historic = "{\"id\":20,\"patient\":\"test\",\"patId\":80,\"practitionnerNotesRecommandation\":\"Patient states that they are 'feeling terrific' Weight at or below recommended level\"}";
-		mockMvc.perform(
-				MockMvcRequestBuilders.post("/historic/update").contentType(MediaType.APPLICATION_JSON).content(historic))
-				.andExpect(MockMvcResultMatchers.status().isNotFound())
+		mockMvc.perform(MockMvcRequestBuilders.post("/historic/update").contentType(MediaType.APPLICATION_JSON)
+				.content(historic)).andExpect(MockMvcResultMatchers.status().isNotFound())
 				.andExpect(jsonPath("$.message", is("No history has been found with id 20")))
 				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
 	}
