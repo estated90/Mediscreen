@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@ComponentScan("web.historic")
+@ComponentScan("web.mediscreen.historic")
 @EnableSwagger2
 @EnableFeignClients
 public class HistoricApplication {

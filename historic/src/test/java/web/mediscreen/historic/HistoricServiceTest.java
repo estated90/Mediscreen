@@ -1,4 +1,4 @@
-package web.mediscreen.historic.service;
+package web.mediscreen.historic;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -75,7 +75,7 @@ class HistoricServiceTest {
 		// THEN
 		mockMvc.perform(MockMvcRequestBuilders.get("/historic/1"))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())
-				.andExpect(jsonPath("$.message", is("No history has been found for patient 1")))
+				.andExpect(jsonPath("$.message", is("No history has been found for the patient")))
 				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
 		HistoricDto historic = new HistoricDto();
 		historic.setPatId(4);
@@ -175,7 +175,7 @@ class HistoricServiceTest {
 	void whenNoHistoric_thenAlertUser() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/historic/0"))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())
-				.andExpect(jsonPath("$.message", is("No history has been found for patient 0")))
+				.andExpect(jsonPath("$.message", is("No history has been found for the patient")))
 				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
 	}
 
