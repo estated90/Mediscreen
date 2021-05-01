@@ -19,7 +19,7 @@ import web.mediscreen.historic.repositories.HistoricRepositories;
 
 @Service
 @Transactional
-@ComponentScan({ "web.historic.proxy", "web.historic.repositories" })
+@ComponentScan({ "web.mediscreen.historic.proxy", "web.historic.mediscreen.repositories" })
 public class HistoricService {
 
 	private static final Logger logger = LogManager.getLogger(HistoricService.class);

@@ -17,6 +17,10 @@
 	<properties>
 		<java.version>16</java.version>
 		<spring-cloud.version>2020.0.2</spring-cloud.version>
+		<sonar.projectKey>estated90_Mediscreen</sonar.projectKey>
+		<sonar.organization>estated90</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>d5961270b394fe0d3c6c5e9f9b5c6f0df48b8d05</sonar.login>
 	</properties>
 	<dependencies>
 		<dependency>

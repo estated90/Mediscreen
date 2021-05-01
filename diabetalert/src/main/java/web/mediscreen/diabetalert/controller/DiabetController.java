@@ -23,14 +23,14 @@ public class DiabetController {
 	
 	@PostMapping(value = "/assess/familyName", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> postAssessDiabetFamily(@RequestBody String familyName) {
-		logger.info("Getting the diabet alert for patient {}", familyName);
-		return new ResponseEntity<>(diabetService.AssessDiabetString(familyName), HttpStatus.OK);
+		logger.info("Getting the diabet alert for patient");
+		return new ResponseEntity<>(diabetService.assessDiabetString(familyName), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/assess/id", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> postAssessDiabetId(@RequestBody int patId) {
 		logger.info("Getting the diabet alert for patient {}", patId);
-		return new ResponseEntity<>(diabetService.AssessDiabetId(patId), HttpStatus.OK);
+		return new ResponseEntity<>(diabetService.assessDiabetId(patId), HttpStatus.OK);
 	}
 	
 }
