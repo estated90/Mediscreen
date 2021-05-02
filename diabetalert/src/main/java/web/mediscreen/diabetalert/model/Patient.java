@@ -28,4 +28,33 @@ public class Patient {
 		this.phone = phone;
 	}
 
+	/**
+	 * @return the family
+	 */
+	public String getFamily() {
+		return family;
+	}
+
+	/**
+	 * @return the given
+	 */
+	public String getGiven() {
+		return given;
+	}
+
+	/**
+	 * @return the dob
+	 */
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	/**
+	 * @return the sex
+	 */
+	public String getSex() {
+		return sex;
+	}
+
+	
 }

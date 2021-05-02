@@ -7,6 +7,6 @@ public class DiabetUtils {
 	}
 	
 	public static String removeBadCharacters(String param1) {
-		return param1.replaceAll("[\n\r|\t]", "_");
+		return param1.replaceAll("[\n\r|\t]", " ");
 	}
 }

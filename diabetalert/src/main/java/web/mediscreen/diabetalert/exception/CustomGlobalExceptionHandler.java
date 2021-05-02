@@ -76,10 +76,10 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
 	//
 
-	@ExceptionHandler(FeignException.BadRequest.class)
+	@ExceptionHandler(FeignException.class)
 	public ResponseEntity<Object> handleFeignStatusException(FeignException ex, HttpServletResponse response) {
 		logger.info(ex.getClass().getName());
-		final var error = "Error while retrieving the patient";
+		final var error = "Error while retrieving the data";
 		final var apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), error);
 		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
