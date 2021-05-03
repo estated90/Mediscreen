@@ -81,38 +81,34 @@ public class DiabetService {
 		String sex = patient.getSex();
 		logger.info("Calculating age");
 		int age = ageCalculator.ageCalculation(birthdate);
-		String assessment = null;	
+		String assessment = null;
 		if (age <= 30) {
 			switch (sex) {
 			case "M":
-				if (age <= 30) {
-					if (risks > 2 && risks <= 4) {
-						assessment = "In Danger";
-					} else if (risks >= 5) {
-						assessment = "Early onset";
-					} else {
-						assessment = "None";
-					}
+				if (risks > 2 && risks <= 4) {
+					assessment = "In Danger";
+				} else if (risks >= 5) {
+					assessment = "Early onset";
+				} else {
+					assessment = "None";
 				}
 				break;
 			case "F":
-				if (age <= 30) {
-					if (risks > 4 && risks <= 6) {
-						assessment = "In Danger";
-					} else if (risks >= 7) {
-						assessment = "Early onset";
-					} else {
-						assessment = "None";
-					}
+				if (risks > 4 && risks <= 6) {
+					assessment = "In Danger";
+				} else if (risks >= 7) {
+					assessment = "Early onset";
+				} else {
+					assessment = "None";
 				}
 				break;
 			default:
 				throw new IllegalArgumentException("Unkown sex");
 			}
 		} else {
-			if (risks == 2) {
+			if (risks >= 2) {
 				assessment = "Borderline";
-			} else if (risks <= 6 && risks < 8) {
+			} else if (risks >= 6 && risks < 8) {
 				assessment = "In Danger";
 			} else if (risks >= 8) {
 				assessment = "Early onset";
@@ -121,6 +117,7 @@ public class DiabetService {
 			}
 		}
 		logger.info("Assessment retrieved {}", assessment);
-		return "Patient: " + patient.getFamily() + " " + patient.getGiven() + " (" + age + ") diabetes assessment is: " + assessment;
+		return "Patient: " + patient.getFamily() + " " + patient.getGiven() + " (" + age + ") diabetes assessment is: "
+				+ assessment;
 	}
 }
