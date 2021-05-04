@@ -58,3 +58,15 @@ services:
     ports:
       - "8082:8082"
     command: "mvn clean spring-boot:run" 
+  diabetalert:
+    container_name: diabet-alert
+    restart: always
+    # will build ./historic/DockerFile
+    build: ./diabetalert/DockerFile
+    working_dir: /diabetalert
+    volumes:
+      - ./:/diabetalert
+      - ~/.m2:/root/.m2
+    ports:
+      - "8080:8080"
+    command: "mvn clean spring-boot:run" 
