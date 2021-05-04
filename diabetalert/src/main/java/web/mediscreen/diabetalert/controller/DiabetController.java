@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import web.mediscreen.diabetalert.service.DiabetService;
+import web.mediscreen.diabetalert.utils.DiabetUtils;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,7 +26,7 @@ public class DiabetController {
 	@PostMapping(value = "/assess", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> postAssessDiabetFamily(@RequestParam String familyName) {
 		logger.info("Getting the diabet alert for patient");
-		return new ResponseEntity<>(diabetService.assessDiabetString(familyName), HttpStatus.OK);
+		return new ResponseEntity<>(diabetService.assessDiabetString(DiabetUtils.removeBadCharacters(familyName)), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/assess/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

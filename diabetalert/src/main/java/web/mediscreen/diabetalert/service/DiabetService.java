@@ -3,7 +3,6 @@ package web.mediscreen.diabetalert.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import web.mediscreen.diabetalert.constants.Terms;
 import web.mediscreen.diabetalert.model.Historic;
-import web.mediscreen.diabetalert.model.Patient;
 import web.mediscreen.diabetalert.proxy.HistoryFeign;
 import web.mediscreen.diabetalert.proxy.PatientFeign;
 import web.mediscreen.diabetalert.utils.DiabetUtils;
@@ -30,7 +28,6 @@ public class DiabetService {
 	private PatientFeign patientFeign;
 	@Autowired
 	private AgeCalculator ageCalculator;
-	private int index = 0;
 
 	public String assessDiabetId(int id) {
 		logger.info("Getting diabet alert for patient {}", id);
@@ -57,25 +54,25 @@ public class DiabetService {
 
 	private int evaluateRisk(List<Historic> historics) {
 		logger.info("Calculate the risk with word occurance");
-		index = 0;
+		var risks = 0;
 		for (Historic historic : historics) {
-			Terms.TERMS.forEach(term -> {
-				Pattern p = Pattern.compile(term.toLowerCase());
-				Matcher m = p.matcher(
+			for( String term: Terms.getTerms()) {
+				var p = Pattern.compile(term.toLowerCase());
+				var m = p.matcher(
 						DiabetUtils.removeBadCharacters(historic.getPractitionnerNotesRecommandation().toLowerCase()));
 				while (m.find()) {
-					index++;
+					risks++;
 				}
-			});
+			}
 			logger.info("Comments have been browsed");
 		}
-		logger.info("{} risks were found", index);
-		return index;
+		logger.info("{} risks were found", risks);
+		return risks;
 	}
 
 	private String getRules(int patId, int risks) {
 		logger.info("getting the rule for patient");
-		Patient patient = patientFeign.getPatientById(patId);
+		var patient = patientFeign.getPatientById(patId);
 		logger.info("Patient retrieved successfully");
 		LocalDate birthdate = patient.getDob();
 		String sex = patient.getSex();
@@ -85,39 +82,76 @@ public class DiabetService {
 		if (age <= 30) {
 			switch (sex) {
 			case "M":
-				if (risks > 2 && risks <= 4) {
-					assessment = "In Danger";
-				} else if (risks >= 5) {
-					assessment = "Early onset";
-				} else {
-					assessment = "None";
-				}
+				assessment = maleUnderThirty(risks);
 				break;
 			case "F":
-				if (risks > 4 && risks <= 6) {
-					assessment = "In Danger";
-				} else if (risks >= 7) {
-					assessment = "Early onset";
-				} else {
-					assessment = "None";
-				}
+				assessment = femaleUnderThirty(risks);
 				break;
 			default:
 				throw new IllegalArgumentException("Unkown sex");
 			}
 		} else {
-			if (risks >= 2) {
-				assessment = "Borderline";
-			} else if (risks >= 6 && risks < 8) {
-				assessment = "In Danger";
-			} else if (risks >= 8) {
-				assessment = "Early onset";
-			} else {
-				assessment = "None";
-			}
+			assessment = patientOverThirty(risks);
 		}
 		logger.info("Assessment retrieved {}", assessment);
 		return "Patient: " + patient.getFamily() + " " + patient.getGiven() + " (" + age + ") diabetes assessment is: "
 				+ assessment;
+	}
+
+	//Code for logic from business.
+	private static final String DANGER = "In Danger";
+	private static final String EARLYONSET = "Early onset";
+	private static final String NONE = "None";
+	private static final String BORDERLINE = "Borderline";
+
+	/**
+	 * <p>Code dedicated for patient of sex Male and under thirty</p>
+	 * @param risks as in number of
+	 * @return The assessment product by the code
+	 */
+	private String maleUnderThirty(int risks) {
+		String assessment;
+		if (risks > 2 && risks <= 4) {
+			assessment = DANGER;
+		} else if (risks >= 5) {
+			assessment = EARLYONSET;
+		} else {
+			assessment = NONE;
+		}
+		return assessment;
+	}
+	/**
+	 * <p>Code dedicated for patient of sex Female and under thirty</p>
+	 * @param risks as in number of
+	 * @return The assessment product by the code
+	 */
+	private String femaleUnderThirty(int risks) {
+		String assessment;
+		if (risks > 4 && risks <= 6) {
+			assessment = DANGER;
+		} else if (risks >= 7) {
+			assessment = EARLYONSET;
+		} else {
+			assessment = NONE;
+		}
+		return assessment;
+	}
+	/**
+	 * <p>Code dedicated for patient over thirty</p>
+	 * @param risks as in number of
+	 * @return The assessment product by the code
+	 */
+	private String patientOverThirty(int risks) {
+		String assessment;
+		if (risks >= 2 && risks < 6) {
+			assessment = BORDERLINE;
+		} else if (risks >= 6 && risks < 8) {
+			assessment = DANGER;
+		} else if (risks >= 8) {
+			assessment = EARLYONSET;
+		} else {
+			assessment = NONE;
+		}
+		return assessment;
 	}
 }

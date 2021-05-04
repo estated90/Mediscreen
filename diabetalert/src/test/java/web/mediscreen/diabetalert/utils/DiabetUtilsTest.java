@@ -1,6 +1,7 @@
 package web.mediscreen.diabetalert.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,6 +36,12 @@ class DiabetUtilsTest {
 		String replaced = DiabetUtils.removeBadCharacters(toverify);
 		
 		assertEquals("I need a string with lot of errors 123", replaced);
+	}
+	
+	@Test
+	void whenPrividingStringEmpty_thenThrowError() {
+		String toverify = null;
+		assertThrows(NullPointerException.class, () -> DiabetUtils.removeBadCharacters(toverify));
 	}
 
 }

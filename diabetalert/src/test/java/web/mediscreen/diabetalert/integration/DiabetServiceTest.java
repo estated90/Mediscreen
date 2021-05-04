@@ -192,6 +192,27 @@ class DiabetServiceTest {
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (31) diabetes assessment is: None", message);
+		historic = new Historic(1, "Test Test", 1,
+				"This is a note with patology : Microalbumine and Rechute");
+		historics.add(historic);
+		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+				.andExpect(status().isOk()).andReturn();
+		message = result.getResponse().getContentAsString();
+		assertEquals("Patient: Test Test (31) diabetes assessment is: Borderline", message);
+		historic = new Historic(1, "Test Test", 1,
+				"This is a note with patology : Microalbumine and Rechute, Rechute, Rechute");
+		historics.add(historic);
+		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+				.andExpect(status().isOk()).andReturn();
+		message = result.getResponse().getContentAsString();
+		assertEquals("Patient: Test Test (31) diabetes assessment is: In Danger", message);
+		historic = new Historic(1, "Test Test", 1,
+				"This is a note with patology : Microalbumine and Rechute");
+		historics.add(historic);
+		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+				.andExpect(status().isOk()).andReturn();
+		message = result.getResponse().getContentAsString();
+		assertEquals("Patient: Test Test (31) diabetes assessment is: Early onset", message);
 	}
 
 }
