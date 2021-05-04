@@ -1,7 +1,7 @@
 package web.mediscreen.diabetalert.constants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Terms {
@@ -10,7 +10,7 @@ public class Terms {
 		throw new IllegalStateException("Utility class");
 	}
 
-	protected static final List<String> diabetTerms = new ArrayList<>(Arrays.asList("Hémoglobine A1C", "Microalbumine", "Taille",
+	protected static final List<String> diabetTerms = Collections.unmodifiableList(Arrays.asList("Hémoglobine A1C", "Microalbumine", "Taille",
 			"Poids", "Fumeur", "Anormal", "Cholestérol", "Vertige", "Rechute", "Réaction", "Anticorps"));
 
 	/**

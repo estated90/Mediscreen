@@ -48,15 +48,20 @@ public class DiabetService {
 			historic = historicOp.get();
 		}
 		logger.info("patient id retrieved is {}", patId);
-		int risks = evaluateRisk(historic);
-		return getRules(patId, risks);
+		if (historic != null) {
+			int risks = evaluateRisk(historic);
+			return getRules(patId, risks);
+		} else {
+			logger.error("No historic found, null value");
+			throw new NullPointerException("No historic found");
+		}
 	}
 
 	private int evaluateRisk(List<Historic> historics) {
 		logger.info("Calculate the risk with word occurance");
 		var risks = 0;
 		for (Historic historic : historics) {
-			for( String term: Terms.getTerms()) {
+			for (String term : Terms.getTerms()) {
 				var p = Pattern.compile(term.toLowerCase());
 				var m = p.matcher(
 						DiabetUtils.removeBadCharacters(historic.getPractitionnerNotesRecommandation().toLowerCase()));
@@ -98,14 +103,17 @@ public class DiabetService {
 				+ assessment;
 	}
 
-	//Code for logic from business.
+	// Code for logic from business.
 	private static final String DANGER = "In Danger";
 	private static final String EARLYONSET = "Early onset";
 	private static final String NONE = "None";
 	private static final String BORDERLINE = "Borderline";
 
 	/**
-	 * <p>Code dedicated for patient of sex Male and under thirty</p>
+	 * <p>
+	 * Code dedicated for patient of sex Male and under thirty
+	 * </p>
+	 * 
 	 * @param risks as in number of
 	 * @return The assessment product by the code
 	 */
@@ -120,8 +128,12 @@ public class DiabetService {
 		}
 		return assessment;
 	}
+
 	/**
-	 * <p>Code dedicated for patient of sex Female and under thirty</p>
+	 * <p>
+	 * Code dedicated for patient of sex Female and under thirty
+	 * </p>
+	 * 
 	 * @param risks as in number of
 	 * @return The assessment product by the code
 	 */
@@ -136,8 +148,12 @@ public class DiabetService {
 		}
 		return assessment;
 	}
+
 	/**
-	 * <p>Code dedicated for patient over thirty</p>
+	 * <p>
+	 * Code dedicated for patient over thirty
+	 * </p>
+	 * 
 	 * @param risks as in number of
 	 * @return The assessment product by the code
 	 */
