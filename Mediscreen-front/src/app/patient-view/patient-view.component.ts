@@ -38,4 +38,8 @@ export class PatientViewComponent implements OnInit {
     this.router.navigate(['/patient', 'historic', id]);
   }
 
+  goToEvaluation(id: number){
+    this.router.navigate(['/patient', 'evaluate', id]);
+  }
+
 }

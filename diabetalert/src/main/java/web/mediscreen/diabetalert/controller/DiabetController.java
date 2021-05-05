@@ -25,7 +25,7 @@ public class DiabetController {
 	@Autowired
 	private DiabetService diabetService;
 
-	@PostMapping(value = "/assess", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/assess", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> postAssessDiabetFamily(@RequestParam String familyName) {
 		logger.info("Getting the diabet alert for patient");
 		if (familyName != null) {
@@ -38,7 +38,7 @@ public class DiabetController {
 		}
 	}
 
-	@PostMapping(value = "/assess/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/assess/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> postAssessDiabetId(@PathVariable int id) {
 		logger.info("Getting the diabet alert for patient {}", id);
 		return new ResponseEntity<>(diabetService.assessDiabetId(id), HttpStatus.OK);
