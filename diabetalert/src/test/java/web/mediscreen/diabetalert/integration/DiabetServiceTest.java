@@ -80,7 +80,7 @@ class DiabetServiceTest {
 		when(historyFeign.getHistoricPatientById(anyInt())).thenReturn(historics);
 		when(historyFeign.getHistoryWithName(anyString())).thenReturn(historics);
 		// THEN
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: None", message);
@@ -93,7 +93,7 @@ class DiabetServiceTest {
 		when(patientFeign.getPatientById(anyInt())).thenReturn(patient);
 		when(historyFeign.getHistoricPatientById(anyInt())).thenReturn(historics);
 		when(historyFeign.getHistoryWithName(anyString())).thenReturn(historics);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: None", message);
@@ -109,26 +109,26 @@ class DiabetServiceTest {
 		when(patientFeign.getPatientById(anyInt())).thenReturn(patient);
 		when(historyFeign.getHistoricPatientById(anyInt())).thenReturn(historics);
 		when(historyFeign.getHistoryWithName(anyString())).thenReturn(historics);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: None", message);
 		historic = new Historic(1, "Test Test", 1, "Réaction");
 		historics.add(historic);
 
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: In Danger", message);
 		historic = new Historic(1, "Test Test", 1, "Réaction");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: In Danger", message);
 		historic = new Historic(1, "Test Test", 1, "Réaction");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: Early onset", message);
@@ -144,25 +144,25 @@ class DiabetServiceTest {
 		when(patientFeign.getPatientById(anyInt())).thenReturn(patient);
 		when(historyFeign.getHistoricPatientById(anyInt())).thenReturn(historics);
 		when(historyFeign.getHistoryWithName(anyString())).thenReturn(historics);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: None", message);
 		historic = new Historic(1, "Test Test", 1, "Réaction");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: In Danger", message);
 		historic = new Historic(1, "Test Test", 1, "Réaction");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: In Danger", message);
 		historic = new Historic(1, "Test Test", 1, "Réaction");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess?familyName=Test Test"))
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess?familyName=Test Test"))
 				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (1) diabetes assessment is: Early onset", message);
@@ -175,7 +175,7 @@ class DiabetServiceTest {
 		when(patientFeign.getPatientById(anyInt())).thenReturn(patient);
 		when(historyFeign.getHistoricPatientById(anyInt())).thenReturn(historics);
 		when(historyFeign.getHistoryWithName(anyString())).thenReturn(historics);
-		mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isInternalServerError())
 				.andExpect(jsonPath("$.message", is("Unkown sex")))
 				.andExpect(jsonPath("$.errors", hasItem("error occurred")));
@@ -188,28 +188,28 @@ class DiabetServiceTest {
 		when(patientFeign.getPatientById(anyInt())).thenReturn(patient);
 		when(historyFeign.getHistoricPatientById(anyInt())).thenReturn(historics);
 		when(historyFeign.getHistoryWithName(anyString())).thenReturn(historics);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (31) diabetes assessment is: None", message);
 		historic = new Historic(1, "Test Test", 1,
 				"This is a note with patology : Microalbumine and Rechute");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (31) diabetes assessment is: Borderline", message);
 		historic = new Historic(1, "Test Test", 1,
 				"This is a note with patology : Microalbumine and Rechute, Rechute, Rechute");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (31) diabetes assessment is: In Danger", message);
 		historic = new Historic(1, "Test Test", 1,
 				"This is a note with patology : Microalbumine and Rechute");
 		historics.add(historic);
-		result = mockMvc.perform(MockMvcRequestBuilders.post("/assess/1")).andDo(MockMvcResultHandlers.print())
+		result = mockMvc.perform(MockMvcRequestBuilders.get("/assess/1")).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andReturn();
 		message = result.getResponse().getContentAsString();
 		assertEquals("Patient: Test Test (31) diabetes assessment is: Early onset", message);

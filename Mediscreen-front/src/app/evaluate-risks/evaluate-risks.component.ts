@@ -34,4 +34,8 @@ export class EvaluateRisksComponent implements OnInit {
       });
   }
 
+  returnToHistoric(){
+    this.router.navigate(['/patient']);
+  }
+
 }
