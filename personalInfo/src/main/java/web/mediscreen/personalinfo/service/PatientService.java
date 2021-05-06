@@ -49,13 +49,13 @@ public class PatientService {
 		}
 	}
 
-	public boolean checkDoubleDb(Patient patient) {
+	private boolean checkDoubleDb(Patient patient) {
 		logger.info("checking if patient {} {} and {} already in db", patient.getFamily(), patient.getGiven(),
 				patient.getDob());
 		return patientRepository.findDouble(patient.getFamily(), patient.getGiven(), patient.getDob()) == null;
 	}
 
-	public boolean checkDoubleDb(int id) {
+	private boolean checkDoubleDb(int id) {
 		logger.info("checking if patient {} already in db", id);
 		Optional<Patient> patient = patientRepository.findById(id);
 		return patient.isPresent();

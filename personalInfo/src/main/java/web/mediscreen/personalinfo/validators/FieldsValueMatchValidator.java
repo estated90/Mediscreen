@@ -6,6 +6,9 @@ import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import web.mediscreen.personalinfo.dto.PatientDto;
 
 /**
@@ -14,22 +17,30 @@ import web.mediscreen.personalinfo.dto.PatientDto;
  */
 public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch, PatientDto> {
 
-    private Logger logger = LoggerFactory.getLogger(FieldsValueMatchValidator.class);
+	private Logger logger = LoggerFactory.getLogger(FieldsValueMatchValidator.class);
 
-    @Override
-    public boolean isValid(PatientDto patient, final ConstraintValidatorContext context) {
-	try {
-	    String sex = patient.getSex();
-	    var checked = false;
-	    if (sex.equals("M") || sex.equals("F")) {
-		checked = true;
-	    }
-	    return checked;
-	} catch (final Exception ex) {
-	    logger.info("Error while getting values from object", ex);
-	    return false;
+	@Override
+	public boolean isValid(PatientDto patient, final ConstraintValidatorContext context) {
+		try {
+			String sex = patient.getSex();
+			var checked = false;
+			if (sex.equals("M") || sex.equals("F")) {
+				if (isValidE123(patient.getPhone())) {
+					checked = true;
+				}
+			}
+			return checked;
+		} catch (final Exception ex) {
+			logger.info("Error while getting values from object", ex);
+			return false;
+		}
+
 	}
 
-    }
+	public static boolean isValidE123(String s) throws NumberParseException {
+		PhoneNumberUtil numberUtil = PhoneNumberUtil.getInstance();
+		PhoneNumber phoneNumber = numberUtil.parse(s, "US");
+		return numberUtil.isValidNumber(phoneNumber);
+	}
 
 }
