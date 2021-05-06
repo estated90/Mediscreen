@@ -2,9 +2,11 @@
     <h2>Evaluation of diabet risk</h2>
 </header>
 <body>
-    <div>
+    <div class="information">
         <p>{{patient.family}}</p>
         <p>{{patient.given}}</p>
     </div>
-    <div class="returnedvalue" *ngIf="obsTextMsg | async as message">{{message}}</div>
+    <div class="returnedvalue">
+        <p>{{value}}</p>
+    </div>
 </body>

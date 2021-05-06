@@ -29,8 +29,9 @@ export class EvaluateRisksComponent implements OnInit {
       this.patient= patient;
     });
     this.risksService.getRisks(this.id).subscribe(
-      msg => console.log(msg)
-    );
+      msg => {console.log(msg);
+      this.value=msg;
+      });
   }
 
 }

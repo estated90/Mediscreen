@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +25,7 @@ public class DiabetController {
 	@Autowired
 	private DiabetService diabetService;
 
-	@PostMapping(value = "/assess", produces = MediaType.TEXT_PLAIN_VALUE)
+	@GetMapping(value = "/assess", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> postAssessDiabetFamily(@RequestParam String familyName) {
 		logger.info("Getting the diabet alert for patient");
 		if (familyName != null) {
@@ -38,7 +38,7 @@ public class DiabetController {
 		}
 	}
 
-	@PostMapping(value = "/assess/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+	@GetMapping(value = "/assess/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> postAssessDiabetId(@PathVariable int id) {
 		logger.info("Getting the diabet alert for patient {}", id);
 		return new ResponseEntity<>(diabetService.assessDiabetId(id), HttpStatus.OK);

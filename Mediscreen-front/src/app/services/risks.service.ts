@@ -17,21 +17,18 @@ export class RisksService {
   // Http Options
   httpOptions = {
       headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-      })
+          'Content-Type': 'application/json',
+          'accept': 'text/plain',
+          'Access-Control-Allow-Origin':'origin-list'
+        })
   }
 
   private apiUrl: string = 'http://localhost:8080/assess';
 
   getRisks(id: number): Observable<string> {
     let API_URL = `${this.apiUrl}/${id}`;
-    return this.httpClient.post<string>(API_URL, { responseType: 'text' });
+    return this.httpClient.get(API_URL, { responseType: 'text' });
   }
-
-  private extractData(res: Response) {
-    let body = res.json();
-          return body;
-      }
 
   // Handle Errors
   handleError(error: HttpErrorResponse) {
