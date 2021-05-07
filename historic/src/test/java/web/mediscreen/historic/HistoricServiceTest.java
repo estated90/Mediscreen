@@ -74,9 +74,8 @@ class HistoricServiceTest {
 		when(patientFeign.getPatientById(anyInt())).thenReturn(patient);
 		// THEN
 		mockMvc.perform(MockMvcRequestBuilders.get("/historic/1"))
-				.andExpect(MockMvcResultMatchers.status().isNotFound())
-				.andExpect(jsonPath("$.message", is("No history has been found for the patient")))
-				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(jsonPath("$").isArray());
 		HistoricDto historic = new HistoricDto();
 		historic.setPatId(4);
 		historic.setPatient("Test");
@@ -168,15 +167,6 @@ class HistoricServiceTest {
 				.andExpect(jsonPath("$.message", is(
 						"Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: \"create\"")))
 				.andExpect(jsonPath("$.errors", hasItem("id should be of type int")));
-	}
-
-	@Test
-	@Order(7)
-	void whenNoHistoric_thenAlertUser() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/historic/0"))
-				.andExpect(MockMvcResultMatchers.status().isNotFound())
-				.andExpect(jsonPath("$.message", is("No history has been found for the patient")))
-				.andExpect(jsonPath("$.errors", hasItem("No patient history returned")));
 	}
 
 	@Test

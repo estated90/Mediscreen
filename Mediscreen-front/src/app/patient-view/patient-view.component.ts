@@ -11,6 +11,7 @@ import { PatientService } from '../services/patient-service';
 export class PatientViewComponent implements OnInit {
 
 	patients!: any[];
+  listDisplay: boolean = false;
 
   constructor(private patientService: PatientService, private router: Router) {
   }
@@ -19,6 +20,9 @@ export class PatientViewComponent implements OnInit {
     this.patientService.getPatientFromServer().subscribe((patients: Patient[]) => {
       console.log('Getting list of patients');
       this.patients= patients;
+       if(this.patients.length!=0){
+        this.listDisplay = true;
+      }
     });
   }
 
