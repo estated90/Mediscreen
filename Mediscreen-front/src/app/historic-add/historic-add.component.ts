@@ -49,7 +49,6 @@ export class HistoricAddComponent implements OnInit {
     this.historic.patient = this.patient.family + ' ' + this.patient.given;
     this.historic.practitionnerNotesRecommandation = formValue['practitionnerNotesRecommandation'];
     this.historicService.addHistoric(this.historic).subscribe(historic =>{
-      console.log(historic);
       this.router.navigate(['/patient', 'historic', this.id]);
     });
   }

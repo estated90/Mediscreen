@@ -31,7 +31,6 @@ export class PatientEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.patientService.getPatientById(+this.id).subscribe(patient => {
-      console.log(patient);
       this.patient= patient;
       this.updateForm();
     });
