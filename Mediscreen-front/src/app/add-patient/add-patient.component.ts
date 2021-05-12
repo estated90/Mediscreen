@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CountryISO, PhoneNumberFormat, SearchCountryField} from "ngx-intl-tel-input";
 import { Patient } from '../models/patient.model';
 import { PatientService } from '../services/patient-service';
 
@@ -15,6 +16,8 @@ export class AddPatientComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private patientService: PatientService, private router: Router) { };
 
+  submitted = false;
+
   patient: Patient = <Patient>{};
 
   ngOnInit() {
@@ -23,17 +26,18 @@ export class AddPatientComponent implements OnInit {
 
   initForm() {
     this.patientForm = this.formBuilder.group({
-      family:['', Validators.required],
-      given:['', Validators.required],
+      family:['', [Validators.required, Validators.minLength(2)]],
+      given:['', [Validators.required, Validators.minLength(2)]],
       dob: ['', Validators.required],
       sex:['', Validators.required],
-      address:['', Validators.required],
-      phone: ['', Validators.required]
+      address:['', [Validators.required, Validators.minLength(10), Validators.maxLength(150)]],
+      phone: ['', [Validators.required]]
     })
   }
 
   onSubmitForm() {
     console.log('adding a new patient')
+    this.submitted = true;
     const formValue = this.patientForm.value;
     this.patient.family = formValue['family'];
     this.patient.given = formValue['given'];
@@ -49,5 +53,28 @@ export class AddPatientComponent implements OnInit {
   }
   returnToPatient(){
     this.patientService.returnToPatient();
-}
+  }
+
+  //only number will be add
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  get f() { 
+    return this.patientForm.controls; 
+  }
+
+  separateDialCode = true;
+  SearchCountryField = SearchCountryField;
+  PhoneNumberFormat = PhoneNumberFormat;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [
+    CountryISO.UnitedStates,
+    CountryISO.France
+  ];
+  
 }

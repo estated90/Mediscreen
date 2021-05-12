@@ -69,7 +69,6 @@ public class DiabetService {
 					risks++;
 				}
 			}
-			logger.info("Comments have been browsed");
 		}
 		logger.info("{} risks were found", risks);
 		return risks;

@@ -23,8 +23,13 @@
     "@angular/platform-browser-dynamic": "~11.2.11",
     "@angular/router": "~11.2.11",
     "bootstrap": "^5.0.0-beta3",
+    "google-libphonenumber": "^3.2.20",
+    "intl-tel-input": "^17.0.12",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "ng2-tel-input": "^2.3.0",
+    "ngx-bootstrap": "^6.2.0",
+    "ngx-intl-tel-input": "^3.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

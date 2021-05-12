@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Historic } from '../models/historic.model';
@@ -44,14 +44,15 @@ export class HistoricAddComponent implements OnInit {
 
   onSubmitForm() {
     console.log('adding a new historic')
-    const formValue = this.historicForm.value;
-    this.historic.patId = this.patient.id;
-    this.historic.patient = this.patient.family + ' ' + this.patient.given;
-    this.historic.practitionnerNotesRecommandation = formValue['practitionnerNotesRecommandation'];
-    this.historicService.addHistoric(this.historic).subscribe(historic =>{
-      console.log(historic);
-      this.router.navigate(['/patient', 'historic', this.id]);
-    });
+      const formValue = this.historicForm.value;
+      this.historic.patId = this.patient.id;
+      this.historic.patient = this.patient.family + ' ' + this.patient.given;
+      this.historic.practitionnerNotesRecommandation = formValue['practitionnerNotesRecommandation'];
+      this.historicService.addHistoric(this.historic).subscribe(historic =>{
+        console.log(historic);
+        this.router.navigate(['/patient', 'historic', this.id]);
+      });
+    
   }
 
   returnToHistoric(){
