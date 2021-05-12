@@ -29,7 +29,6 @@ export class HistoricEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.historicService.getHistoricById(this.id).subscribe(historic => {
-      console.log(historic);
       this.historic= historic;
       this.updateForm();
     });

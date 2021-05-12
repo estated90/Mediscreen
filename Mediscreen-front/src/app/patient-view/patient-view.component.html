@@ -3,7 +3,7 @@
     <h2 class="first-line">Patients detail list :</h2>
     <button class="btn btn-standard" (click)="goToNewPatient()">Add patient</button>
   </div>
-  <table id="patient">
+  <table id="patient" [hidden]="!listDisplay">
     <thead>
       <tr >
         <th>First name</th>
@@ -29,4 +29,7 @@
       </td>
     </tr>
   </table>
+  <div class="noPatient" [hidden]="listDisplay">
+    <p>No patient to display</p>
+  </div>
 </div>

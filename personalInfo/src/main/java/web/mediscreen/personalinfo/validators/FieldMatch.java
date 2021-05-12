@@ -22,7 +22,7 @@ public @interface FieldMatch {
     /**
      * @return a sTRING OF ERROR
      */
-    String message() default "You can only choose F or M";
+    String message() default "Error in the data";
 
     /**
      * @return Class of object

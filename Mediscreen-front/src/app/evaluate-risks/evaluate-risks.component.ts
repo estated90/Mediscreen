@@ -25,7 +25,6 @@ export class EvaluateRisksComponent implements OnInit {
 
   ngOnInit(): void {
     this.patientService.getPatientById(+this.id).subscribe(patient => {
-      console.log(patient);
       this.patient= patient;
     });
     this.risksService.getRisks(this.id).subscribe(

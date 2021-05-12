@@ -35,21 +35,16 @@ public class HistoricService {
 		logger.info("Service to get patient history from DB");
 		return returnList(historicRepository.findByPatientId(id));
 	}
-	
+
 	public List<Historic> getHistoryOfPatient(String patient) throws HistoryNotFoundException {
 		logger.info("Service to get patient history from DB");
 		return returnList(historicRepository.findByName(patient));
 	}
-	
-	//Method to verify if the list is empty. Avoid duplication
-	private List<Historic> returnList(List<Historic> historic) throws HistoryNotFoundException{
-		if (!historic.isEmpty()) {
-			logger.info("List of historic returned successfully");
-			return historic;
-		} else {
-			logger.error("No occurance were found in DB for the user");
-			throw new HistoryNotFoundException("No history has been found for the patient");
-		}
+
+	// Method to verify if the list is empty. Avoid duplication
+	private List<Historic> returnList(List<Historic> historic) throws HistoryNotFoundException {
+		logger.info("List of historic returned successfully");
+		return historic;
 	}
 
 	public Historic createNewHistoric(Historic historic) throws PatientNotFoundException {
@@ -91,7 +86,5 @@ public class HistoricService {
 			throw new HistoryNotFoundException("No history has been found for id " + id);
 		}
 	}
-
-
 
 }

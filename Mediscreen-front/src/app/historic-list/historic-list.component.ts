@@ -16,6 +16,7 @@ export class HistoricListComponent implements OnInit {
   id = this.route.snapshot.params['id'];
   historics!: any[];
   patientName!:string;
+  listDisplay: boolean = false;
 
   constructor(private patientService: PatientService, private historicService: HistoricService, private route: ActivatedRoute, private router: Router) { }
 
@@ -23,9 +24,15 @@ export class HistoricListComponent implements OnInit {
     this.historicService.getPatientHistoric(this.id).subscribe((historics: Historic[]) => {
       console.log('Getting patient list of history');
       this.historics= historics;
-      this.historics.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1)
-      this.patientName = historics[0].patient;
+      if(this.historics.length!=0){
+        this.historics.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
+        this.listDisplay = true;
+      }
+      this.patientService.getPatientById(this.id).subscribe(patient => {
+        this.patientName = patient.family + " " + patient.given;
+      });
     });
+    
   }
 
   goToNewHistoric(){
@@ -39,5 +46,6 @@ export class HistoricListComponent implements OnInit {
   returnToPatient(){
     this.patientService.returnToPatient();
   }
+  
 
 }
