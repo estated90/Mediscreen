@@ -20,8 +20,8 @@ import { HistoricListComponent } from './historic-list/historic-list.component';
 import { HistoricAddComponent } from './historic-add/historic-add.component';
 import { HistoricEditComponent } from './historic-edit/historic-edit.component';
 import { EvaluateRisksComponent } from './evaluate-risks/evaluate-risks.component';
-import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { IntlInputPhoneModule } from 'intl-input-phone';
 
 const appRoutes: Routes = [
   { path: 'patient', component: PatientViewComponent },
@@ -60,7 +60,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatIconModule,
     BsDropdownModule.forRoot(),
-    NgxIntlTelInputModule
+    IntlInputPhoneModule
   ],
   providers: [
     PatientService,

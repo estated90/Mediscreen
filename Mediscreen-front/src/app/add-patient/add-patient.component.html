@@ -49,14 +49,10 @@
     <div class="form-group">
       <label for="phone">Phone Number</label>
     </div>
-    <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
-    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
-    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
-    [selectedCountryISO]="CountryISO.UnitedStates" 
-    [phoneValidation]="true" [separateDialCode]="separateDialCode"
-    [numberFormat]="PhoneNumberFormat.National" name="phone" formControlName="phone"
-    [ngClass]="{'is-invalid': f.phone.errors && (f.phone.touched || f.phone.dirty), 'is-valid':f.phone.valid}">
-  </ngx-intl-tel-input>
+    <intl-input-phone formControlName="phone" [ConfigurationOption]="configOption1" ></intl-input-phone>
+    <div class="invalid-feedback" >
+      <strong *ngIf="f.phone.errors?.required">Phone is required</strong>
+    </div>
     <div class="buttons">
       <button type="button" class="btn btn-back" (click)="returnToPatient()">Cancel</button>
       <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">Submit</button>

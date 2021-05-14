@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CountryISO, PhoneNumberFormat, SearchCountryField} from "ngx-intl-tel-input";
+import { ConfigurationOptions, ContentOptionsEnum, OutputOptionsEnum } from "intl-input-phone";
 import { Patient } from '../models/patient.model';
 import { PatientService } from '../services/patient-service';
 
@@ -13,8 +13,19 @@ import { PatientService } from '../services/patient-service';
 export class AddPatientComponent implements OnInit {
 
   patientForm!: FormGroup;
+  configOption1: ConfigurationOptions;
 
-  constructor(private formBuilder: FormBuilder, private patientService: PatientService, private router: Router) { };
+  constructor(private formBuilder: FormBuilder, 
+              private patientService: PatientService, 
+              private router: Router) {
+    this.configOption1 = new ConfigurationOptions();
+    this.configOption1.OutputFormat = OutputOptionsEnum.Number
+    this.configOption1.SelectorClass = "OptionType3";
+      this.configOption1.OptionTextTypes = [];
+    this.configOption1.OptionTextTypes.push(ContentOptionsEnum.Flag);
+    this.configOption1.OptionTextTypes.push(ContentOptionsEnum.CountryName);
+    this.configOption1.OptionTextTypes.push(ContentOptionsEnum.CountryPhoneCode);
+               };
 
   submitted = false;
 
@@ -67,14 +78,4 @@ export class AddPatientComponent implements OnInit {
   get f() { 
     return this.patientForm.controls; 
   }
-
-  separateDialCode = true;
-  SearchCountryField = SearchCountryField;
-  PhoneNumberFormat = PhoneNumberFormat;
-  CountryISO = CountryISO;
-  preferredCountries: CountryISO[] = [
-    CountryISO.UnitedStates,
-    CountryISO.France
-  ];
-  
 }
