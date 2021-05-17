@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
+import PhoneNumber from 'awesome-phonenumber';
 import { ConfigurationOptions, ContentOptionsEnum, OutputOptionsEnum } from "intl-input-phone";
 import { Patient } from '../models/patient.model';
+import { ISO_3166_1_CODES } from '../phone/country-codes';
 import { PatientService } from '../services/patient-service';
 
 @Component({
@@ -13,11 +16,14 @@ import { PatientService } from '../services/patient-service';
 export class AddPatientComponent implements OnInit {
 
   patientForm!: FormGroup;
+
   configOption1: ConfigurationOptions;
+
+  countyCodes = ISO_3166_1_CODES;
 
   constructor(private formBuilder: FormBuilder, 
               private patientService: PatientService, 
-              private router: Router) {
+              private router: Router, private fb: FormBuilder) {    
     this.configOption1 = new ConfigurationOptions();
     this.configOption1.OutputFormat = OutputOptionsEnum.Number
     this.configOption1.SelectorClass = "OptionType3";
@@ -42,7 +48,7 @@ export class AddPatientComponent implements OnInit {
       dob: ['', Validators.required],
       sex:['', Validators.required],
       address:['', [Validators.required, Validators.minLength(10), Validators.maxLength(150)]],
-      phone: ['', [Validators.required]]
+      phone: ['', Validators.required]
     })
   }
 

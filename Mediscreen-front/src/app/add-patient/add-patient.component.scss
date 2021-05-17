@@ -1,29 +1,4 @@
-.buttons {
-  float: right;
-  overflow: visible;
-  width: 21%;
-  .btn-back{
-    margin-right:10%;
-    border-color: silver;
-    &:hover{
-      border-color: silver;
-      background-color: silver;
-    }
-  }
-  .btn-primary{
-    border-color: #4CAF50;
-    background-color: white;
-    color: #4CAF50;
-    cursor: pointer;
-    &:hover {
-      border-color: #4CAF50;
-      background-color:#4CAF50;
-      color: white;
-    }
-  }
-}
-
-input {
+.input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -31,6 +6,16 @@ input {
   &[type=text]:focus {
     border: 3px solid #555;
   }
+}
+
+intl-input-phone{
+  width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	&[type=text]:focus {
+	  border: 3px solid #555;
+	}
 }
 
 select {
@@ -45,7 +30,4 @@ select {
 label{
 	margin-bottom: 5px;
 }
-.mat-datepicker-content .mat-calendar
-{ 
-     zoom: 0.85;
-}
+

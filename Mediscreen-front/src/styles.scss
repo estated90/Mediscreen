@@ -41,3 +41,48 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.buttons {
+  float: right;
+  overflow: visible;
+  width: 21%;
+  .btn-back{
+    margin-right:10%;
+    border-color: silver;
+    &:hover{
+      border-color: silver;
+      background-color: silver;
+    }
+  }
+  .btn-primary{
+    border-color: #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+    cursor: pointer;
+    &:hover {
+      border-color: #4CAF50;
+      background-color:#4CAF50;
+      color: white;
+    }
+  }
+}
+
+.btn-edit{
+  margin-top: 2em;
+  height: 2.2em;
+  width : 2.2em;
+  border-color: #4CAF50;
+  background-color: white;
+  color: #4CAF50;
+  padding: 3px 3px;
+  margin-left: 0.5em;
+  &:hover {
+    border-color: #4CAF50;
+    background-color:#4CAF50;
+    color: white;
+  }
+  mat-icon{
+    vertical-align:middle;
+  }
+}

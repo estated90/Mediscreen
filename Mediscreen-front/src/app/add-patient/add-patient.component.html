@@ -2,7 +2,7 @@
   <form [formGroup]="patientForm" (ngSubmit)="onSubmitForm()">
     <div class="form-group">
       <label for="family">Family Name</label>
-      <input type="text" id="family" class="form-control" formControlName="family" placeholder="Enter the family name" 
+      <input type="text" id="family" class="form-control input" formControlName="family" placeholder="Enter the family name" 
       [ngClass]="{'is-invalid': f.family.errors && (f.family.touched || f.family.dirty), 'is-valid':f.family.valid}" >
       <div class="invalid-feedback" >
         <strong *ngIf="f.family.errors?.required">Family name is required</strong>
@@ -11,26 +11,27 @@
     </div>
     <div class="form-group">
       <label for="given">Given Name</label>
-      <input type="text" id="given" class="form-control" formControlName="given" placeholder="Enter the given name"
+      <input type="text" id="given" class="form-control input" formControlName="given" placeholder="Enter the given name"
       [ngClass]="{'is-invalid': f.given.errors && (f.given.touched || f.given.dirty), 'is-valid':f.given.valid}" >
       <div class="invalid-feedback" >
         <strong *ngIf="f.given.errors?.required">Given name is required</strong>
         <strong *ngIf="f.given.errors?.minlength">Given name length must be greated than 2 character. </strong>
       </div>
     </div>
-      <label for="dob">Date of birth</label>
-      <mat-form-field appearance="fill" class="date-control" [ngClass]="{'is-invalid': f.dob.errors && (f.dob.touched || f.dob.dirty), 'is-valid':f.dob.valid}">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker2">
-        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
+    <div class="form-group">
+      <mat-form-field appearance="fill" [ngClass]="{'is-invalid': f.dob.errors && (f.dob.touched || f.dob.dirty), 'is-valid':f.dob.valid}"> 
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="dob" formControlName="dob" >
+        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+        <mat-datepicker #dob></mat-datepicker>
       </mat-form-field>
       <div class="invalid-feedback" >
         <strong *ngIf="f.given.errors?.required">Date of birth is required</strong>
       </div>
+    </div>
     <div class="form-group">
       <label for="sex">Sex of the patient</label>
-      <select id="sex" class="form-control" formControlName="sex" [ngClass]="{'is-invalid': f.sex.errors && (f.sex.touched || f.sex.dirty), 'is-valid':f.sex.valid}">
+      <select id="sex" class="form-control input" formControlName="sex" [ngClass]="{'is-invalid': f.sex.errors && (f.sex.touched || f.sex.dirty), 'is-valid':f.sex.valid}">
         <option value="F">Female</option>
         <option value="M">Male</option>
       </select>
@@ -40,7 +41,7 @@
     </div>
     <div class="form-group">
       <label for="address">Address</label>
-      <input type="text" id="address" class="form-control" formControlName="address" placeholder="Enter the address"
+      <input type="text" id="address" class="form-control input" formControlName="address" placeholder="Enter the address"
       [ngClass]="{'is-invalid': f.address.errors && (f.address.touched || f.address.dirty), 'is-valid':f.address.valid}">
       <div class="invalid-feedback" >
         <strong *ngIf="f.address.errors?.required">Address is required</strong>
@@ -50,10 +51,11 @@
     </div>
     <div class="form-group">
       <label for="phone">Phone Number</label>
-    </div>
-    <intl-input-phone formControlName="phone" [ConfigurationOption]="configOption1" ></intl-input-phone>
-    <div class="invalid-feedback" >
-      <strong *ngIf="f.phone.errors?.required">Phone is required</strong>
+
+    
+      <div class="invalid-feedback" >
+        <strong *ngIf="f.phone.errors?.required">Phone is required</strong>
+      </div>
     </div>
     <div class="buttons">
       <button type="button" class="btn btn-back" (click)="returnToPatient()">Cancel</button>
