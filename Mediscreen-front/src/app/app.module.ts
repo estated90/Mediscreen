@@ -21,13 +21,13 @@ import { HistoricAddComponent } from './historic-add/historic-add.component';
 import { HistoricEditComponent } from './historic-edit/historic-edit.component';
 import { EvaluateRisksComponent } from './evaluate-risks/evaluate-risks.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { IntlInputPhoneModule } from 'intl-input-phone';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 const appRoutes: Routes = [
   { path: 'patient', component: PatientViewComponent },
@@ -65,7 +65,6 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
-    IntlInputPhoneModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -73,7 +72,8 @@ const appRoutes: Routes = [
     MatInputModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [
     PatientService,

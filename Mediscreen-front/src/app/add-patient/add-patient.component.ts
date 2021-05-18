@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import PhoneNumber from 'awesome-phonenumber';
-import { ConfigurationOptions, ContentOptionsEnum, OutputOptionsEnum } from "intl-input-phone";
 import { Patient } from '../models/patient.model';
 import { ISO_3166_1_CODES } from '../phone/country-codes';
 import { PatientService } from '../services/patient-service';
@@ -16,26 +13,17 @@ import { PatientService } from '../services/patient-service';
 export class AddPatientComponent implements OnInit {
 
   patientForm!: FormGroup;
-
-  configOption1: ConfigurationOptions;
-
   countyCodes = ISO_3166_1_CODES;
+  submitted = false;
+  patient: Patient = <Patient>{};
+  sexes: any[] = [
+    {value: 'F', viewValue: 'Female'},
+    {value: 'M', viewValue: 'Male'}
+  ];
 
   constructor(private formBuilder: FormBuilder, 
               private patientService: PatientService, 
-              private router: Router, private fb: FormBuilder) {    
-    this.configOption1 = new ConfigurationOptions();
-    this.configOption1.OutputFormat = OutputOptionsEnum.Number
-    this.configOption1.SelectorClass = "OptionType3";
-      this.configOption1.OptionTextTypes = [];
-    this.configOption1.OptionTextTypes.push(ContentOptionsEnum.Flag);
-    this.configOption1.OptionTextTypes.push(ContentOptionsEnum.CountryName);
-    this.configOption1.OptionTextTypes.push(ContentOptionsEnum.CountryPhoneCode);
-               };
-
-  submitted = false;
-
-  patient: Patient = <Patient>{};
+              private router: Router, private fb: FormBuilder) {};
 
   ngOnInit() {
     this.initForm();

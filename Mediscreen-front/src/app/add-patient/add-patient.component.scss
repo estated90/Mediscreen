@@ -1,33 +1,13 @@
-.input {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  &[type=text]:focus {
-    border: 3px solid #555;
-  }
-}
 
-intl-input-phone{
-  width: 100%;
-	padding: 12px 20px;
-	margin: 8px 0;
-	box-sizing: border-box;
-	&[type=text]:focus {
-	  border: 3px solid #555;
-	}
-}
-
-select {
-	width: 100%;
-	padding: 12px 20px;
-	margin: 8px 0;
-	box-sizing: border-box;
-	&[type=text]:focus {
-	  border: 3px solid #555;
-	}
-}
 label{
 	margin-bottom: 5px;
 }
 
+mat-form-field{
+	margin-bottom: 5px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+  }

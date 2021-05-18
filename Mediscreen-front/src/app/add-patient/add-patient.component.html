@@ -2,60 +2,55 @@
   <form [formGroup]="patientForm" (ngSubmit)="onSubmitForm()">
     <div class="form-group">
       <label for="family">Family Name</label>
-      <input type="text" id="family" class="form-control input" formControlName="family" placeholder="Enter the family name" 
-      [ngClass]="{'is-invalid': f.family.errors && (f.family.touched || f.family.dirty), 'is-valid':f.family.valid}" >
-      <div class="invalid-feedback" >
-        <strong *ngIf="f.family.errors?.required">Family name is required</strong>
-        <strong *ngIf="f.family.errors?.minlength">Family name length must be greated than 2 character. </strong>
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Fill the family name</mat-label>
+        <input matInput formControlName="family">
+        <mat-error *ngIf="patientForm.get('family')!.hasError('required')">Family name is required</mat-error>
+        <mat-error *ngIf="patientForm.get('family')!.hasError('minlength')">Family name length must be greater than 2 character.</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="given">Given Name</label>
-      <input type="text" id="given" class="form-control input" formControlName="given" placeholder="Enter the given name"
-      [ngClass]="{'is-invalid': f.given.errors && (f.given.touched || f.given.dirty), 'is-valid':f.given.valid}" >
-      <div class="invalid-feedback" >
-        <strong *ngIf="f.given.errors?.required">Given name is required</strong>
-        <strong *ngIf="f.given.errors?.minlength">Given name length must be greated than 2 character. </strong>
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Fill the given name</mat-label>
+        <input matInput formControlName="given">
+        <mat-error *ngIf="patientForm.get('given')!.hasError('required')">Given name is required</mat-error>
+        <mat-error *ngIf="patientForm.get('given')!.hasError('minlength')">Given name length must be greater than 2 character.</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="fill" [ngClass]="{'is-invalid': f.dob.errors && (f.dob.touched || f.dob.dirty), 'is-valid':f.dob.valid}"> 
+      <label for="dob">Date of birth</label>
+      <mat-form-field appearance="fill"> 
         <mat-label>Date of Birth</mat-label>
-        <input matInput [matDatepicker]="dob" formControlName="dob" >
+        <input class="dob" matInput [matDatepicker]="dob" formControlName="dob" >
         <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
         <mat-datepicker #dob></mat-datepicker>
+        <mat-error *ngIf="patientForm.get('dob')!.hasError('required')">Date of birth is required</mat-error>
       </mat-form-field>
-      <div class="invalid-feedback" >
-        <strong *ngIf="f.given.errors?.required">Date of birth is required</strong>
-      </div>
     </div>
     <div class="form-group">
       <label for="sex">Sex of the patient</label>
-      <select id="sex" class="form-control input" formControlName="sex" [ngClass]="{'is-invalid': f.sex.errors && (f.sex.touched || f.sex.dirty), 'is-valid':f.sex.valid}">
-        <option value="F">Female</option>
-        <option value="M">Male</option>
-      </select>
-      <div class="invalid-feedback" >
-        <strong *ngIf="f.sex.errors?.required">Sex is required</strong>
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Sex of the patient</mat-label>
+        <mat-select formControlName="sex">
+          <mat-option *ngFor="let sex of sexes" [value]="sex.value">{{sex.viewValue}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="patientForm.get('sex')!.hasError('required')">Please select the sex of the patient</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="address">Address</label>
-      <input type="text" id="address" class="form-control input" formControlName="address" placeholder="Enter the address"
-      [ngClass]="{'is-invalid': f.address.errors && (f.address.touched || f.address.dirty), 'is-valid':f.address.valid}">
-      <div class="invalid-feedback" >
-        <strong *ngIf="f.address.errors?.required">Address is required</strong>
-        <strong *ngIf="f.address.errors?.minlength">Address length must be greated than 10 character. </strong>
-        <strong *ngIf="f.address.errors?.maxlength">Address length cannot exceed 150 character. </strong>
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Fill the address</mat-label>
+        <input matInput formControlName="address">
+        <mat-error *ngIf="patientForm.get('address')!.hasError('required')">Address is required</mat-error>
+        <mat-error *ngIf="patientForm.get('address')!.hasError('minlength')">Address length must be greated than 10 character.</mat-error>
+        <mat-error *ngIf="patientForm.get('address')!.hasError('maxlnegth')">Address length cannot exceed 150 character.</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="phone">Phone Number</label>
 
-    
-      <div class="invalid-feedback" >
-        <strong *ngIf="f.phone.errors?.required">Phone is required</strong>
-      </div>
     </div>
     <div class="buttons">
       <button type="button" class="btn btn-back" (click)="returnToPatient()">Cancel</button>
