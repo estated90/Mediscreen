@@ -3,31 +3,33 @@ import { HistoricService } from './services/historic-service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
-
+import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
-import { PatientService } from './services/patient-service';
-import { PatientViewComponent } from './patient-view/patient-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddPatientComponent } from './add-patient/add-patient.component';
-import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
-import { PatientEditComponent } from './patient-edit/patient-edit.component'
-import { CommonModule } from '@angular/common';
-import { HistoricListComponent } from './historic-list/historic-list.component';
-import { HistoricAddComponent } from './historic-add/historic-add.component';
-import { HistoricEditComponent } from './historic-edit/historic-edit.component';
-import { EvaluateRisksComponent } from './evaluate-risks/evaluate-risks.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+
+import { PatientService } from './services/patient-service';
+import { PatientViewComponent } from './patient-view/patient-view.component';
+import { AddPatientComponent } from './patient-add/patient-add.component';
+import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
+import { PatientEditComponent } from './patient-edit/patient-edit.component'
+import { HistoricListComponent } from './historic-list/historic-list.component';
+import { HistoricAddComponent } from './historic-add/historic-add.component';
+import { HistoricEditComponent } from './historic-edit/historic-edit.component';
+import { EvaluateRisksComponent } from './evaluate-risks/evaluate-risks.component';
+
 
 const appRoutes: Routes = [
   { path: 'patient', component: PatientViewComponent },
@@ -73,12 +75,14 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatNativeDateModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    NgxIntlTelInputModule
   ],
   providers: [
     PatientService,
     HistoricService,
-    RisksService
+    RisksService,
+    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'}
   ],
   bootstrap: [AppComponent]
 })

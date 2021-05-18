@@ -2,34 +2,73 @@
   <form [formGroup]="patientForm" (ngSubmit)="onSubmitForm()">
     <div class="form-group">
       <label for="family">Family Name</label>
-      <input type="text" id="family" class="form-control" formControlName="family">
+      <mat-form-field appearance="fill">
+        <mat-label>Fill the family name</mat-label>
+        <input matInput formControlName="family">
+        <mat-error *ngIf="patientForm.get('family')!.hasError('required')">Family name is required</mat-error>
+        <mat-error *ngIf="patientForm.get('family')!.hasError('minlength')">Family name length must be greater than 2 character.</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="given">Given Name</label>
-      <input type="text" id="given" class="form-control" formControlName="given">
+      <mat-form-field appearance="fill">
+        <mat-label>Fill the given name</mat-label>
+        <input matInput formControlName="given">
+        <mat-error *ngIf="patientForm.get('given')!.hasError('required')">Given name is required</mat-error>
+        <mat-error *ngIf="patientForm.get('given')!.hasError('minlength')">Given name length must be greater than 2 character.</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="dob">Date of birth</label>
-      <input type="date" id="dob" class="form-control" formControlName="dob">
+      <mat-form-field appearance="fill"> 
+        <mat-label>Date of Birth</mat-label>
+        <input class="dob" matInput [matDatepicker]="dob" formControlName="dob" >
+        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+        <mat-datepicker #dob></mat-datepicker>
+        <mat-error *ngIf="patientForm.get('dob')!.hasError('required')">Date of birth is required</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="sex">Sex of the patient</label>
-      <select id="sex" class="form-control" formControlName="sex">
-        <option value="F">Female</option>
-        <option value="M">Male</option>
-      </select>
+      <mat-form-field appearance="fill">
+        <mat-label>Sex of the patient</mat-label>
+        <mat-select formControlName="sex">
+          <mat-option *ngFor="let sex of sexes" [value]="sex.value">{{sex.viewValue}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="patientForm.get('sex')!.hasError('required')">Please select the sex of the patient</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="address">Address</label>
-      <input type="text" id="address" class="form-control" formControlName="address">
+      <mat-form-field appearance="fill">
+        <mat-label>Fill the address</mat-label>
+        <input matInput formControlName="address">
+        <mat-error *ngIf="patientForm.get('address')!.hasError('required')">Address is required</mat-error>
+        <mat-error *ngIf="patientForm.get('address')!.hasError('minlength')">Address length must be greated than 10 character.</mat-error>
+        <mat-error *ngIf="patientForm.get('address')!.hasError('maxlength')">Address length cannot exceed 150 character.</mat-error>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="phone">Phone Number</label>
-      <input type="text" id="phone" class="form-control" formControlName="phone">
+        <ngx-intl-tel-input 
+        [cssClass]="'custom'" 
+        [preferredCountries]="preferredCountries"
+        [enableAutoCountrySelect]="true" 
+        [enablePlaceholder]="true" 
+        [searchCountryFlag]="true"
+        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+        [selectFirstCountry]="false" 
+        [selectedCountryISO]="CountryISO.UnitedStates"
+        [maxLength]="'15'" 
+        [phoneValidation]="true" 
+        [separateDialCode]="separateDialCode"
+        name="phone" formControlName="phone">
+      </ngx-intl-tel-input>
+      <mat-error *ngIf="!patientForm.get('phone')!.valid && patientForm.get('phone')!.touched">This is an <strong>invalid</strong> phone number.</mat-error>
     </div>
     <div class="buttons">
       <button type="button" class="btn btn-back" (click)="returnToPatient()">Cancel</button>
-      <button type="submit" class="btn btn-primary" >Submit</button>
+      <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">Submit</button>
     </div>
   </form>
 </div>

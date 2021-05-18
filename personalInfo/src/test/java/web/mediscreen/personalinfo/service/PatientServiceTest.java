@@ -36,7 +36,7 @@ class PatientServiceTest {
     void whengettingandcreating_UpdateDb() throws Exception {
 	mockMvc.perform(MockMvcRequestBuilders.get("/patient/list")).andExpect(MockMvcResultMatchers.status().isOk())
 		.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(0)));
-	String patient = "{\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\"}";
+	String patient = "{\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\",\"countryCode\": \"US\"}";
 	mockMvc.perform(put("/patient/add").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(status().isCreated());
 	mockMvc.perform(MockMvcRequestBuilders.get("/patient/list")).andExpect(MockMvcResultMatchers.status().isOk())
@@ -50,7 +50,7 @@ class PatientServiceTest {
 		.andExpect(jsonPath("$.given", is("Test"))).andExpect(jsonPath("$.dob", is("1966-12-30")))
 		.andExpect(jsonPath("$.sex", is("F"))).andExpect(jsonPath("$.address", is("1 Brookside St")))
 		.andExpect(jsonPath("$.phone", is("747-222-3333")));
-	patient = "{\"id\":\"1\",\"family\": \"TestNoneUpdate\",\"given\": \"TestUpdate\",\"dob\": \"1966-12-13\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\"}";
+	patient = "{\"id\":\"1\",\"family\": \"TestNoneUpdate\",\"given\": \"TestUpdate\",\"dob\": \"1966-12-13\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\",\"countryCode\": \"US\"}";
 	mockMvc.perform(
 		MockMvcRequestBuilders.post("/patient/update").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(MockMvcResultMatchers.status().isOk());
@@ -68,12 +68,14 @@ class PatientServiceTest {
 	String patient = "{\"family\": \"\",\"given\": \"\",\"dob\": \"2030-09-30\",\"sex\": \"Fe\",\"address\": \"\",\"phone\": \"\"}";
 	mockMvc.perform(put("/patient/add").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isArray())
-		.andExpect(jsonPath("$.errors", hasSize(5)))
+		.andExpect(jsonPath("$.errors", hasSize(7)))
 		.andExpect(jsonPath("$.errors", hasItem("address: Adress cannot be blank")))
 		.andExpect(jsonPath("$.errors", hasItem("family: Family name cannot be null")))
 		.andExpect(jsonPath("$.errors", hasItem("phone: Phone cannot be blank")))
 		.andExpect(jsonPath("$.errors", hasItem("given: Given name cannot be null")))
-		.andExpect(jsonPath("$.errors", hasItem("patientDto: Error in the data")));
+		.andExpect(jsonPath("$.errors", hasItem("patientDto: Error in the data")))
+		.andExpect(jsonPath("$.errors", hasItem("countryCode: Country code cannot be blank")))
+		.andExpect(jsonPath("$.errors", hasItem("countryCode: Country code cannot be null")));
     }
 
     @Test
@@ -99,7 +101,7 @@ class PatientServiceTest {
     @Test
     @Order(5)
     void whenDoublePatient_thenThrowError() throws Exception {
-	String patient = "{\"family\": \"TestNone2\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\"}";
+	String patient = "{\"family\": \"TestNone2\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\",\"countryCode\": \"US\"}";
 	mockMvc.perform(put("/patient/add").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(status().isCreated());
 	mockMvc.perform(put("/patient/add").contentType(MediaType.APPLICATION_JSON).content(patient))
@@ -131,7 +133,7 @@ class PatientServiceTest {
     @Test
     @Order(8)
     void whenErrorSavingInDB_thenAlertUser() throws Exception {
-	String patient = "{\"family\": \"TestNone3\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brooppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkside St\",\"phone\": \"747-222-3303\"}";
+	String patient = "{\"family\": \"TestNone3\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brooppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkside St\",\"phone\": \"747-222-3303\",\"countryCode\": \"US\"}";
 	mockMvc.perform(put("/patient/add").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(status().isInternalServerError())
 		.andExpect(jsonPath("$.message",
@@ -143,7 +145,7 @@ class PatientServiceTest {
     @Test
     @Order(9)
     void whenUpdatingPatientNotInDb_thenAlertUser() throws Exception {
-	String patient = "{\"id\":\"0\",\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\"}";
+	String patient = "{\"id\":\"0\",\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\",\"countryCode\": \"US\"}";
 	mockMvc.perform(
 		MockMvcRequestBuilders.post("/patient/update").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -154,7 +156,7 @@ class PatientServiceTest {
     @Test
     @Order(9)
     void whenUpdatingPatientNotInDbIdNotZero_thenAlertUser() throws Exception {
-	String patient = "{\"id\":\"30\",\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\"}";
+	String patient = "{\"id\":\"30\",\"family\": \"TestNone\",\"given\": \"Test\",\"dob\": \"1966-12-30\",\"sex\": \"F\",\"address\": \"1 Brookside St\",\"phone\": \"747-222-3333\",\"countryCode\": \"US\"}";
 	mockMvc.perform(
 		MockMvcRequestBuilders.post("/patient/update").contentType(MediaType.APPLICATION_JSON).content(patient))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest())

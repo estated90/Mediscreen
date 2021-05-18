@@ -25,7 +25,7 @@ public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch
 			String sex = patient.getSex();
 			var checked = false;
 			if (sex.equals("M") || sex.equals("F")) {
-				if (isValidE123(patient.getPhone())) {
+				if (isValidE123(patient.getPhone(), patient.getCountryCode())) {
 					checked = true;
 				}
 			}
@@ -37,9 +37,9 @@ public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch
 
 	}
 
-	public static boolean isValidE123(String s) throws NumberParseException {
+	public static boolean isValidE123(String s, String countryCode) throws NumberParseException {
 		PhoneNumberUtil numberUtil = PhoneNumberUtil.getInstance();
-		PhoneNumber phoneNumber = numberUtil.parse(s, "US");
+		PhoneNumber phoneNumber = numberUtil.parse(s, countryCode);
 		return numberUtil.isValidNumber(phoneNumber);
 	}
 

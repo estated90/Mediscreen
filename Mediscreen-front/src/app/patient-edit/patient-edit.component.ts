@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchCountryField, CountryISO } from 'ngx-intl-tel-input';
 import { Observable, Subject } from 'rxjs';
 import { Patient } from '../models/patient.model';
 import { PatientService } from '../services/patient-service';
@@ -17,6 +18,14 @@ export class PatientEditComponent implements OnInit, OnDestroy {
   patient!: Patient;
   doAsyncObservableThing!: Observable<unknown>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  sexes: any[] = [
+    {value: 'F', viewValue: 'Female'},
+    {value: 'M', viewValue: 'Male'}
+  ];
+  separateDialCode = true;
+	SearchCountryField = SearchCountryField;
+	CountryISO = CountryISO;
+	preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,

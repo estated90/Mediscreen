@@ -45,12 +45,26 @@
         <input matInput formControlName="address">
         <mat-error *ngIf="patientForm.get('address')!.hasError('required')">Address is required</mat-error>
         <mat-error *ngIf="patientForm.get('address')!.hasError('minlength')">Address length must be greated than 10 character.</mat-error>
-        <mat-error *ngIf="patientForm.get('address')!.hasError('maxlnegth')">Address length cannot exceed 150 character.</mat-error>
+        <mat-error *ngIf="patientForm.get('address')!.hasError('maxlength')">Address length cannot exceed 150 character.</mat-error>
       </mat-form-field>
     </div>
     <div class="form-group">
       <label for="phone">Phone Number</label>
-
+        <ngx-intl-tel-input 
+        [cssClass]="'custom'" 
+        [preferredCountries]="preferredCountries"
+        [enableAutoCountrySelect]="true" 
+        [enablePlaceholder]="true" 
+        [searchCountryFlag]="true"
+        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+        [selectFirstCountry]="false" 
+        [selectedCountryISO]="CountryISO.UnitedStates"
+        [maxLength]="'15'" 
+        [phoneValidation]="true" 
+        [separateDialCode]="separateDialCode"
+        name="phone" formControlName="phone">
+      </ngx-intl-tel-input>
+      <mat-error *ngIf="!patientForm.get('phone')!.valid && patientForm.get('phone')!.touched">This is an <strong>invalid</strong> phone number.</mat-error>
     </div>
     <div class="buttons">
       <button type="button" class="btn btn-back" (click)="returnToPatient()">Cancel</button>

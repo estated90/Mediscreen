@@ -1,14 +1,16 @@
+import { CountryCodes } from './../phone/country-codes';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import { SearchCountryField, CountryISO } from 'ngx-intl-tel-input';
 import { Patient } from '../models/patient.model';
 import { ISO_3166_1_CODES } from '../phone/country-codes';
 import { PatientService } from '../services/patient-service';
 
 @Component({
   selector: 'app-add-patient',
-  templateUrl: './add-patient.component.html',
-  styleUrls: ['./add-patient.component.scss']
+  templateUrl: './patient-add.component.html',
+  styleUrls: ['./patient-add.component.scss']
 })
 export class AddPatientComponent implements OnInit {
 
@@ -20,6 +22,10 @@ export class AddPatientComponent implements OnInit {
     {value: 'F', viewValue: 'Female'},
     {value: 'M', viewValue: 'Male'}
   ];
+  separateDialCode = true;
+	SearchCountryField = SearchCountryField;
+	CountryISO = CountryISO;
+	preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
 
   constructor(private formBuilder: FormBuilder, 
               private patientService: PatientService, 
@@ -36,7 +42,7 @@ export class AddPatientComponent implements OnInit {
       dob: ['', Validators.required],
       sex:['', Validators.required],
       address:['', [Validators.required, Validators.minLength(10), Validators.maxLength(150)]],
-      phone: ['', Validators.required]
+      phone: new FormControl('', [Validators.required])
     })
   }
 
@@ -49,10 +55,11 @@ export class AddPatientComponent implements OnInit {
     this.patient.dob = formValue['dob'];
     this.patient.sex = formValue['sex'];
     this.patient.address = formValue['address'];
-    this.patient.phone = formValue['phone'];
+    this.patient.phone = formValue['phone'].internationalNumber;
+    this.patient.countryCode = formValue['phone'].countryCode;
     this.patientService.addPatient(this.patient).subscribe(patient =>{
       console.log(patient);
-      this.router.navigate(['/patient']);
+      this.router.navigate(['/patient']);  
     });
 
   }
@@ -73,3 +80,4 @@ export class AddPatientComponent implements OnInit {
     return this.patientForm.controls; 
   }
 }
+
