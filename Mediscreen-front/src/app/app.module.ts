@@ -19,9 +19,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule  } from '@angular/material/toolbar';
+import {MatTableModule} from '@angular/material/table';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 import { PatientService } from './services/patient-service';
 import { PatientViewComponent } from './patient-view/patient-view.component';
 import { AddPatientComponent } from './patient-add/patient-add.component';
@@ -31,6 +32,7 @@ import { HistoricListComponent } from './historic-list/historic-list.component';
 import { HistoricAddComponent } from './historic-add/historic-add.component';
 import { HistoricEditComponent } from './historic-edit/historic-edit.component';
 import { EvaluateRisksComponent } from './evaluate-risks/evaluate-risks.component';
+import { MatSortModule } from '@angular/material/sort';
 
 
 const appRoutes: Routes = [
@@ -77,7 +79,10 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatNativeDateModule,
     MatIconModule,
+    MatTableModule,
+    MatSortModule,
     MatSelectModule,
+    MatToolbarModule,
     MatSnackBarModule,
     NgxIntlTelInputModule
   ],

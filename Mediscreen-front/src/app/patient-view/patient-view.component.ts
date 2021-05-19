@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Patient } from '../models/patient.model';
 import { PatientService } from '../services/patient-service';
@@ -8,12 +10,16 @@ import { PatientService } from '../services/patient-service';
   templateUrl: './patient-view.component.html',
   styleUrls: ['./patient-view.component.scss']
 })
-export class PatientViewComponent implements OnInit {
+export class PatientViewComponent implements OnInit, AfterViewInit{
 
 	patients!: any[];
   listDisplay: boolean = false;
+  dataSource!: MatTableDataSource<Patient[]>;
 
   constructor(private patientService: PatientService, private router: Router) {
+  }
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -22,6 +28,7 @@ export class PatientViewComponent implements OnInit {
       this.patients= patients;
        if(this.patients.length!=0){
         this.listDisplay = true;
+        this.dataSource=new MatTableDataSource(this.patients);
       }
     });
   }
@@ -45,5 +52,9 @@ export class PatientViewComponent implements OnInit {
   goToEvaluation(id: number){
     this.router.navigate(['/patient', 'evaluate', id]);
   }
+
+  displayedColumns: string[] = ['firstName', 'lastName', 'dob', 'sex','address','phone', 'actions'];
+
+  @ViewChild(MatSort) sort!: MatSort;
 
 }

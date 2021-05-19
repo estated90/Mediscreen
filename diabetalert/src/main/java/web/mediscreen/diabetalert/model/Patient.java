@@ -6,7 +6,6 @@ import java.time.LocalDate;
  * @author Nico
  *
  */
-@SuppressWarnings("unused")
 public class Patient {
 
 	private int id;

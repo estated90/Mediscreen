@@ -36,7 +36,9 @@
     padding-bottom: 12px;
     background-color: #4CAF50;
     color: white;
-
+    .mat-sort-header-sorted {
+      color: white;
+    }
   }
   #actions {
     width: 15%;
@@ -58,7 +60,5 @@
     }
   }
 }
-
-
 
 
