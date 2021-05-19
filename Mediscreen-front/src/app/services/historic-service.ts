@@ -38,7 +38,8 @@ export class HistoricService {
         return this.httpClient.put<Historic>(API_URL, this.stringJson,this.httpOptions).pipe(retry(1), catchError(this.handleError));
     }
 
-    editHistoric(historic: Historic) {
+    editHistoric(historic: Historic): Observable<Historic> {
+      console.log('Sending new historic to service ')
       this.stringJson = JSON.stringify(historic);
       let API_URL = `${this.apiUrl}/update`;
       return this.httpClient.post<Historic>(API_URL, this.stringJson,this.httpOptions).pipe(retry(1), catchError(this.handleError));

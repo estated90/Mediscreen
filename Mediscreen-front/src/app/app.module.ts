@@ -1,3 +1,4 @@
+import { NotificationService } from './services/notification.service';
 import { RisksService } from './services/risks.service';
 import { HistoricService } from './services/historic-service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { PatientService } from './services/patient-service';
 import { PatientViewComponent } from './patient-view/patient-view.component';
@@ -76,12 +78,14 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatIconModule,
     MatSelectModule,
+    MatSnackBarModule,
     NgxIntlTelInputModule
   ],
   providers: [
     PatientService,
     HistoricService,
     RisksService,
+    NotificationService,
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'}
   ],
   bootstrap: [AppComponent]

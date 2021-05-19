@@ -1,3 +1,4 @@
+import { NotificationService } from './../services/notification.service';
 import { CountryCodes } from './../phone/country-codes';
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -26,10 +27,12 @@ export class AddPatientComponent implements OnInit {
 	SearchCountryField = SearchCountryField;
 	CountryISO = CountryISO;
 	preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
+  errorMessage: any;
 
   constructor(private formBuilder: FormBuilder, 
               private patientService: PatientService, 
-              private router: Router, private fb: FormBuilder) {};
+              private router: Router,
+              private notification: NotificationService) {};
 
   ngOnInit() {
     this.initForm();
@@ -57,11 +60,19 @@ export class AddPatientComponent implements OnInit {
     this.patient.address = formValue['address'];
     this.patient.phone = formValue['phone'].internationalNumber;
     this.patient.countryCode = formValue['phone'].countryCode;
-    this.patientService.addPatient(this.patient).subscribe(patient =>{
-      console.log(patient);
-      this.router.navigate(['/patient']);  
-    });
-
+    this.patientService.addPatient(this.patient)
+      .subscribe(
+        (patient) =>{
+          console.log(patient);
+          this.notification.openSnackBar('Patient saved successfully', 'Done', 'custom-style-success')
+          this.router.navigate(['/patient']);  
+        },
+        (error) => {
+          console.error('Request failed with error')
+          this.errorMessage = error;
+          this.notification.openSnackBar('Error while saving data', 'Done', 'custom-style-error')
+        }
+      );
   }
   returnToPatient(){
     this.patientService.returnToPatient();

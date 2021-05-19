@@ -1,3 +1,4 @@
+import { NotificationService } from './../services/notification.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,11 +27,13 @@ export class PatientEditComponent implements OnInit, OnDestroy {
 	SearchCountryField = SearchCountryField;
 	CountryISO = CountryISO;
 	preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
+  errorMessage: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private patientService: PatientService,
-              private router: Router) { }
+              private router: Router,
+              private notification: NotificationService) { }
 
   ngOnDestroy(){
     this.destroy$.next(true);
@@ -66,11 +69,21 @@ export class PatientEditComponent implements OnInit, OnDestroy {
     this.patient.dob = formValue['dob'];
     this.patient.sex = formValue['sex'];
     this.patient.address = formValue['address'];
-    this.patient.phone = formValue['phone'];
-    this.patientService.editPatient(this.patient).subscribe(returned =>{
-      console.log(returned);
-      this.router.navigate(['/patient']);
-    });
+    this.patient.phone = formValue['phone'].internationalNumber;
+    this.patient.countryCode = formValue['phone'].countryCode;
+    this.patientService.editPatient(this.patient)
+      .subscribe(
+        (returned) =>{
+          console.log(returned);
+          this.notification.openSnackBar('Patient saved successfully', 'Done', 'custom-style-success')
+          this.router.navigate(['/patient']);
+        },
+        (error) => {
+          console.error('Request failed with error')
+          this.errorMessage = error;
+          this.notification.openSnackBar('Error while saving data', 'Done', 'custom-style-error')
+        }
+      );
   }
 
   updateForm(){

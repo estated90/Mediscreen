@@ -98,4 +98,28 @@ mat-form-field{
 .form-group {
 	display: flex;
 	flex-direction: column;
+}
+
+.custom-style-success{
+  background-color:green;
+  color:white;
+  .mat-simple-snackbar-action{
+    color: white;
   }
+}
+
+.custom-style-error{
+  background-color:red;
+  color:white;
+  .mat-simple-snackbar-action{
+    color: white;
+  }
+}
+
+.custom-style-info{
+  background-color:orange;
+  color:white;
+  .mat-simple-snackbar-action{
+    color: white;
+  }
+}
