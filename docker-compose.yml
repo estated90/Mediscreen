@@ -1,8 +1,20 @@
 version: '3.3'
 services:
-    gpsutil:
-        build: ./personalInfo/DockerFile
-        restart: always
-        ports: 
-            - "8081:8081"
-        container_name: Mediscreen
+  personalinfo:
+   build: ./personalInfo/DockerFile
+   restart: always
+   ports: 
+     - "8081:8081"
+   container_name: Mediscreen  
+  mysql-docker:
+      image: mysql:8.0
+      environment:
+        MYSQL_USER: user
+        MYSQL_ROOT_PASSWORD: adminadmin
+        MYSQL_PASSWORD: adminadmin
+        MYSQL_DATABASE: mediscreen
+      ports:
+        - "3306:3306"
+      expose:
+        - '3306'
+      container_name: mediscreen_db
