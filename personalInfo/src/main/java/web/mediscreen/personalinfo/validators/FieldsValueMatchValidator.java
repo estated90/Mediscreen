@@ -20,7 +20,7 @@ public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch
     public boolean isValid(PatientDto patient, final ConstraintValidatorContext context) {
 	try {
 	    String sex = patient.getSex();
-	    boolean checked = false;
+	    var checked = false;
 	    if (sex.equals("M") || sex.equals("F")) {
 		checked = true;
 	    }

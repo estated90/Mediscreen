@@ -1,20 +1,60 @@
 version: '3.3'
 services:
-  personalinfo:
-   build: ./personalInfo/DockerFile
-   restart: always
-   ports: 
-     - "8081:8081"
-   container_name: Mediscreen  
-  mysql-docker:
-      image: mysql:8.0
+  mediscreen-db:
+      image: mysql
+      container_name: mediscreen-db
       environment:
-        MYSQL_USER: user
-        MYSQL_ROOT_PASSWORD: adminadmin
-        MYSQL_PASSWORD: adminadmin
         MYSQL_DATABASE: mediscreen
+        MYSQL_USER: user
+        MYSQL_PASSWORD: adminadmin
+        MYSQL_ROOT_PASSWORD: adminadmin
+        MYSQL_ROOT_HOST: '%'
+      volumes:
+      - ./personalInfo/DockerFile/init:/docker-entrypoint-initdb.d
       ports:
         - "3306:3306"
-      expose:
-        - '3306'
-      container_name: mediscreen_db
+      restart: always
+  personalinfo:
+    container_name: personalinfo
+    depends_on: 
+      - mediscreen-db
+    links:
+      - mediscreen-db
+    restart: always
+    # will build ./personalInfo/DockerFile
+    build: ./personalInfo/DockerFile
+    working_dir: /personalInfo
+    volumes:
+      - ./:/personalinfo
+      - ~/.m2:/root/.m2
+    ports:
+      - "8081:8081"
+    command: "mvn clean spring-boot:run" 
+  mongodb:
+    image: mongo:latest
+    container_name: historic-db
+    environment:
+      MYSQL_DATABASE: mediscreenHistoric
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminadmin
+      MYSQL_ROOT_PASSWORD: adminadmin
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 0.0.0.0:27017:27017/tcp
+    restart: always
+  historic:
+    container_name: patientHistory
+    depends_on: 
+      - mongodb
+    links:
+      - mongodb
+    restart: always
+    # will build ./historic/DockerFile
+    build: ./historic/DockerFile
+    working_dir: /historic
+    volumes:
+      - ./:/historic
+      - ~/.m2:/root/.m2
+    ports:
+      - "8082:8082"
+    command: "mvn clean spring-boot:run" 

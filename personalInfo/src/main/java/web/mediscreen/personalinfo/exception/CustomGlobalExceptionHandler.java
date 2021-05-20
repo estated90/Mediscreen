@@ -2,8 +2,10 @@ package web.mediscreen.personalinfo.exception;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,81 +29,92 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // 400
+	// 400
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
-	    final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-	logger.info(ex.getClass().getName());
-	//
-	final List<String> errors = new ArrayList<>();
-	for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
-	    errors.add(error.getField() + ": " + error.getDefaultMessage());
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
+			final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+		logger.info(ex.getClass().getName());
+		//
+		final List<String> errors = new ArrayList<>();
+		for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
+			errors.add(error.getField() + ": " + error.getDefaultMessage());
+		}
+		for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+			errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+		}
+		final var apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
 	}
-	for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-	    errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+
+	//
+
+	@ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+	public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex,
+			final WebRequest request) {
+		logger.info(ex.getClass().getName());
+		//
+		Class<?> requiredType = ex.getRequiredType();
+		String nameType = null;
+		if (requiredType == null) {
+			nameType = "Unknown";
+		} else {
+			nameType = requiredType.getName();
+		}
+		final String error = ex.getName() + " should be of type " + nameType;
+
+		final var apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
-	final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
-	return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
-    }
 
-    //
+	// 405
 
-    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex,
-	    final WebRequest request) {
-	logger.info(ex.getClass().getName());
-	//
-	final String error = ex.getName() + " should be of type " + ex.getRequiredType().getName();
+	@Override
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+			final HttpRequestMethodNotSupportedException ex, final HttpHeaders headers, final HttpStatus status,
+			final WebRequest request) {
+		logger.info(ex.getClass().getName());
+		//
+		final var builder = new StringBuilder();
+		builder.append(ex.getMethod());
+		builder.append(" method is not supported for this request. Supported methods are ");
+		Set<HttpMethod> requiredHttp = ex.getSupportedHttpMethods();
+		String response = null;
+		if (requiredHttp == null) {
+			response = "Unknown";
+		} else {
+			requiredHttp.forEach(t -> builder.append(t + " "));
+			response = builder.toString();
+		}
+		final var apiError = new ApiError(HttpStatus.METHOD_NOT_ALLOWED, ex.getLocalizedMessage(), response);
+		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
 
-	final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
-	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-    }
+	// 415
 
-    // 405
+	@Override
+	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(final HttpMediaTypeNotSupportedException ex,
+			final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+		logger.info(ex.getClass().getName());
+		//
+		final var builder = new StringBuilder();
+		builder.append(ex.getContentType());
+		builder.append(" media type is not supported. Supported media types are ");
+		ex.getSupportedMediaTypes().forEach(t -> builder.append(t + " "));
 
-    @Override
-    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
-	    final HttpRequestMethodNotSupportedException ex, final HttpHeaders headers, final HttpStatus status,
-	    final WebRequest request) {
-	logger.info(ex.getClass().getName());
-	//
-	final StringBuilder builder = new StringBuilder();
-	builder.append(ex.getMethod());
-	builder.append(" method is not supported for this request. Supported methods are ");
-	ex.getSupportedHttpMethods().forEach(t -> builder.append(t + " "));
+		final var apiError = new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getLocalizedMessage(),
+				builder.substring(0, builder.length() - 2));
+		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
 
-	final ApiError apiError = new ApiError(HttpStatus.METHOD_NOT_ALLOWED, ex.getLocalizedMessage(),
-		builder.toString());
-	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-    }
+	// 500
 
-    // 415
-
-    @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(final HttpMediaTypeNotSupportedException ex,
-	    final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-	logger.info(ex.getClass().getName());
-	//
-	final StringBuilder builder = new StringBuilder();
-	builder.append(ex.getContentType());
-	builder.append(" media type is not supported. Supported media types are ");
-	ex.getSupportedMediaTypes().forEach(t -> builder.append(t + " "));
-
-	final ApiError apiError = new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getLocalizedMessage(),
-		builder.substring(0, builder.length() - 2));
-	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    // 500
-
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
-	logger.info(ex.getClass().getName());
-	logger.error("error", ex);
-	//
-	final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
-		"error occurred");
-	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-    }
+	@ExceptionHandler({ Exception.class })
+	public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
+		logger.info(ex.getClass().getName());
+		logger.error("error", ex);
+		//
+		final var apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
+		return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
 }

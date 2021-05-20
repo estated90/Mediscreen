@@ -1,0 +1,12 @@
+<div class="col-sm-8 col-sm-offset-2">
+    <form [formGroup]="historicForm" (ngSubmit)="onSubmitForm()">
+      <div class="form-group">
+        <label for="practitionnerNotesRecommandation">Note / Recommandation</label>
+        <textarea type="text" id="practitionnerNotesRecommandation" class="form-control" formControlName="practitionnerNotesRecommandation"></textarea>
+      </div>
+      <div class="buttons">
+        <button type="button" class="btn btn-back" (click)="returnToHistoric()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="historicForm.invalid">Submit</button>
+      </div>
+    </form>
+  </div>

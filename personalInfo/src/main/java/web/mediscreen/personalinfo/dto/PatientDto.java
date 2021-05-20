@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,17 +14,23 @@ import web.mediscreen.personalinfo.validators.FieldMatch;
 public class PatientDto {
     @Id
     private int id;
-    @NotBlank(message = "Family name is mandatory")
+    @NotNull(message = "Family name is mandatory")
+    @NotBlank(message = "Family name cannot be null")
     private String family;
-    @NotBlank(message = "Given name is mandatory")
+    @NotNull(message = "Given name is mandatory")
+    @NotBlank(message = "Given name cannot be null")
     private String given;
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Dob is mandatory")
     private LocalDate dob;
+    @NotNull(message = "Sex cannot be null")
     @NotBlank(message = "You need to fill the sex")
     private String sex;
+    @NotNull(message = "Adress cannot be null")
     @NotBlank(message = "Adress cannot be blank")
     private String address;
+    @NotNull(message = "Phone cannot be null")
     @NotBlank(message = "Phone cannot be blank")
     private String phone;
     /**
