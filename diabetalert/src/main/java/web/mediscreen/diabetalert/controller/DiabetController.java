@@ -16,6 +16,10 @@ import io.swagger.annotations.Api;
 import web.mediscreen.diabetalert.service.DiabetService;
 import web.mediscreen.diabetalert.utils.DiabetUtils;
 
+/**
+ * @author Nicolas
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @Api(value = "Resource REST Endpoint to assess risks")
@@ -25,6 +29,10 @@ public class DiabetController {
 	@Autowired
 	private DiabetService diabetService;
 
+	/**
+	 * @param familyName As string family + given
+	 * @return
+	 */
 	@GetMapping(value = "/assess", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> postAssessDiabetFamily(@RequestParam String familyName) {
 		logger.info("Getting the diabet alert for patient");
@@ -38,6 +46,11 @@ public class DiabetController {
 		}
 	}
 
+	
+	/**
+	 * @param id of the patient
+	 * @return A string formated as specs
+	 */
 	@GetMapping(value = "/assess/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> postAssessDiabetId(@PathVariable int id) {
 		logger.info("Getting the diabet alert for patient {}", id);

@@ -20,7 +20,7 @@ import javax.validation.Payload;
 public @interface FieldMatch {
 
     /**
-     * @return a sTRING OF ERROR
+     * @return a String of Error
      */
     String message() default "Error in the data";
 

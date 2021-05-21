@@ -27,6 +27,10 @@ import web.mediscreen.personalinfo.model.Patient;
 import web.mediscreen.personalinfo.service.PatientService;
 import web.mediscreen.personalinfo.utils.PatientUtils;
 
+/**
+ * @author Nicolas
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class PatientController {
@@ -37,18 +41,32 @@ public class PatientController {
 	@Autowired
 	private PatientUtils utils;
 
+	/**
+	 * @return List of all patient
+	 */
 	@GetMapping(value = "/patient/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Patient> getAllPatient() {
 		logger.info("Getting all patient lists");
 		return patientService.gettingAllPatient();
 	}
 
+	/**
+	 * @param id Integer of the patient
+	 * @return The patient ID
+	 * @throws PatientNoExistException Exception when this patient do not exist
+	 */
 	@GetMapping(value = "/patient/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Optional<Patient> getPatientById(@PathVariable int id) throws PatientNoExistException {
 		logger.info("Getting patient with id {}", id);
 		return patientService.getPatientById(id);
 	}
 
+	/**
+	 * @param patient Object patient DTO
+	 * @return Code created
+	 * @throws DbSaveException Exception when error while saving in DB
+	 * @throws PatientExistException Exception when this patient do not exist
+	 */
 	@PutMapping(path = "/patient/add", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Patient> putPatient(@RequestBody @Valid PatientDto patient)
 			throws DbSaveException, PatientExistException {
@@ -58,6 +76,11 @@ public class PatientController {
 
 	}
 
+	/**
+	 * @param patient Object patient DTO
+	 * @return Code ok and object patient
+	 * @throws PatientNoExistException Exception when this patient do not exist
+	 */
 	@CrossOrigin(origins = "http://localhost:4200/")
 	@PostMapping(path = "/patient/update", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Patient> postPatient(@RequestBody @Valid PatientDto patient) throws PatientNoExistException {

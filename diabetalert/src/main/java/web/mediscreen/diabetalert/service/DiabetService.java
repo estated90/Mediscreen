@@ -17,6 +17,10 @@ import web.mediscreen.diabetalert.proxy.HistoryFeign;
 import web.mediscreen.diabetalert.proxy.PatientFeign;
 import web.mediscreen.diabetalert.utils.DiabetUtils;
 
+/**
+ * @author Nicolas
+ *
+ */
 @Service
 @ComponentScan({ "web.mediscreen.diabetalert.proxy" })
 public class DiabetService {
@@ -29,6 +33,10 @@ public class DiabetService {
 	@Autowired
 	private AgeCalculator ageCalculator;
 
+	/**
+	 * @param id of the patient
+	 * @return the String asserted for the risks
+	 */
 	public String assessDiabetId(int id) {
 		logger.info("Getting diabet alert for patient {}", id);
 		int patId = id;
@@ -38,6 +46,10 @@ public class DiabetService {
 		return getRules(patId, risks);
 	}
 
+	/**
+	 * @param familyName of the patient
+	 * @return the String asserted for the risks
+	 */
 	public String assessDiabetString(String familyName) {
 		logger.info("Getting diabet alert for patient {}", familyName);
 		Optional<List<Historic>> historicOp = Optional.ofNullable(historicFeign.getHistoryWithName(familyName));
@@ -57,6 +69,11 @@ public class DiabetService {
 		}
 	}
 
+	/**
+	 * <p>Service to calculate the occurence of the word from constants</p>
+	 * @param historics Kist of historic of the patient
+	 * @return The number of occurence of the words
+	 */
 	private int evaluateRisk(List<Historic> historics) {
 		logger.info("Calculate the risk with word occurance");
 		var risks = 0;
@@ -74,6 +91,11 @@ public class DiabetService {
 		return risks;
 	}
 
+	/**
+	 * @param patId Id of the patient
+	 * @param risks calculated earlier
+	 * @return the completed strings
+	 */
 	private String getRules(int patId, int risks) {
 		logger.info("getting the rule for patient");
 		var patient = patientFeign.getPatientById(patId);

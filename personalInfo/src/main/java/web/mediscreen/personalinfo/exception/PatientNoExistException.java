@@ -1,5 +1,9 @@
 package web.mediscreen.personalinfo.exception;
 
+/**
+ * @author Nicolas
+ *
+ */
 public class PatientNoExistException extends Exception {
     /**
      * 

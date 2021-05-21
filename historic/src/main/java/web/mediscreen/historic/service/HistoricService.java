@@ -17,6 +17,10 @@ import web.mediscreen.historic.model.Historic;
 import web.mediscreen.historic.proxy.PatientFeign;
 import web.mediscreen.historic.repositories.HistoricRepositories;
 
+/**
+ * @author Nicolas
+ *
+ */
 @Service
 @Transactional
 @ComponentScan({ "web.mediscreen.historic.proxy", "web.historic.mediscreen.repositories" })
@@ -31,22 +35,31 @@ public class HistoricService {
 	@Autowired
 	private HistoricRepositories historicRepository;
 
+	/**
+	 * @param id of the patient
+	 * @return List of historic
+	 * @throws HistoryNotFoundException Exception when no id found
+	 */
 	public List<Historic> getHistoryOfPatient(int id) throws HistoryNotFoundException {
 		logger.info("Service to get patient history from DB");
-		return returnList(historicRepository.findByPatientId(id));
+		return historicRepository.findByPatientId(id);
 	}
 
+	/**
+	 * @param patient as object
+	 * @return List of historic
+	 * @throws HistoryNotFoundException Exception when no id found
+	 */
 	public List<Historic> getHistoryOfPatient(String patient) throws HistoryNotFoundException {
 		logger.info("Service to get patient history from DB");
-		return returnList(historicRepository.findByName(patient));
+		return historicRepository.findByName(patient);
 	}
 
-	// Method to verify if the list is empty. Avoid duplication
-	private List<Historic> returnList(List<Historic> historic) throws HistoryNotFoundException {
-		logger.info("List of historic returned successfully");
-		return historic;
-	}
-
+	/**
+	 * @param historic as object
+	 * @return the inserted historic
+	 * @throws PatientNotFoundException Exception when no id found
+	 */
 	public Historic createNewHistoric(Historic historic) throws PatientNotFoundException {
 		logger.info("Service to create patient history into DB : {}", historic.getPatient());
 		if (patientFeign.getPatientById(historic.getPatId()) != null) {
@@ -60,6 +73,11 @@ public class HistoricService {
 		}
 	}
 
+	/**
+	 * @param historic as object
+	 * @return the updated historic
+	 * @throws HistoryNotFoundException Exception when no id found
+	 */
 	public Historic updateHistoric(Historic historic) throws HistoryNotFoundException {
 		logger.info("Service to update patient history into DB : {}", historic.getPatient());
 		Optional<Historic> historicRetrieved = historicRepository.findById(historic.getId());
@@ -76,6 +94,11 @@ public class HistoricService {
 		}
 	}
 
+	/**
+	 * @param id Id as integer
+	 * @return The historic found in db
+	 * @throws HistoryNotFoundException Exception when no id found
+	 */
 	public Optional<Historic> getHistoryId(int id) throws HistoryNotFoundException {
 		logger.info("Service to get history from DB");
 		Optional<Historic> historic = historicRepository.findById(id);

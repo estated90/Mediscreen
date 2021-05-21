@@ -14,12 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionHandler {
     
+    /**
+     * @param ex HistoryNotFoundException
+     * @return ResponseEntity
+     */
     @ExceptionHandler(HistoryNotFoundException.class)
     public ResponseEntity<Object> handleApiException(
 	    HistoryNotFoundException ex) {
     	final var apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), "No patient history returned");
     	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     } 
+    /**
+     * @param ex PatientNotFoundException
+     * @return ResponseEntity
+     */
     @ExceptionHandler(PatientNotFoundException.class)
     public ResponseEntity<Object> handleApiException(
 	    PatientNotFoundException ex) {

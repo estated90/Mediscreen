@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionHandler {
     
+    /**
+     * @param ex PatientExistException
+     * @return Response Entity with error
+     */
     @ExceptionHandler(PatientExistException.class)
     public ResponseEntity<Object> handleApiException(
 	    PatientExistException ex) {
@@ -21,6 +25,10 @@ public class ApiExceptionHandler {
     	return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     } 
     
+    /**
+     * @param ex PatientNoExistException
+     * @return Response Entity with error
+     */
     @ExceptionHandler(PatientNoExistException.class)
     public ResponseEntity<Object> handleApiException(
 	    PatientNoExistException ex) {
