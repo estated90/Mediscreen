@@ -70,3 +70,14 @@ services:
     ports:
       - "8080:8080"
     command: "mvn clean spring-boot:run" 
+  mediscreenfront:
+    container_name: mediscreen-front
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Mediscreen-front
+    volumes:
+      - ./:/mediscreen-front
+      - '/app/node_modules'
+    ports: 
+      - "4201:4200"
