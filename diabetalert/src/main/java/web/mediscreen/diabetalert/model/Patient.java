@@ -16,15 +16,6 @@ public class Patient {
 	private String address;
 	private String phone;
 
-	/**
-	 * @param id
-	 * @param family
-	 * @param given
-	 * @param dob
-	 * @param sex
-	 * @param address
-	 * @param phone
-	 */
 	public Patient(int id, String family, String given, LocalDate dob, String sex, String address, String phone) {
 		super();
 		this.id = id;

@@ -2,10 +2,6 @@ package web.mediscreen.diabetalert.model;
 
 import java.time.LocalDateTime;
 
-/**
- * @author Nicolas
- *
- */
 public class Historic {
 
 	private int id;

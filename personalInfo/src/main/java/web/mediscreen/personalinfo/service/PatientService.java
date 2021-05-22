@@ -17,11 +17,6 @@ import web.mediscreen.personalinfo.exception.PatientNoExistException;
 import web.mediscreen.personalinfo.model.Patient;
 import web.mediscreen.personalinfo.repositories.PatientRepository;
 
-/**
- * @author Nicolas
- * <p> Service to manage the services with the DB</p>
- *
- */
 @Service
 @Transactional
 public class PatientService {
@@ -30,20 +25,11 @@ public class PatientService {
 	@Autowired
 	private PatientRepository patientRepository;
 
-	/**
-	 * @return List of all patient
-	 */
 	public List<Patient> gettingAllPatient() {
 		logger.info("Getting all users from DB");
 		return patientRepository.findAll();
 	}
 
-	/**
-	 * @param patient Receive a patient Object
-	 * @return A patient object
-	 * @throws DbSaveException Exception raised if not saved correctly in DB
-	 * @throws PatientExistException Exception when the patient is not in DB
-	 */
 	public Patient addNewPatient(Patient patient) throws DbSaveException, PatientExistException {
 		if (checkDoubleDb(patient)) {
 			try {
@@ -63,31 +49,18 @@ public class PatientService {
 		}
 	}
 
-	/**
-	 * @param patient Receive a patient Object
-	 * @return Boolean if patient is in DB
-	 */
 	private boolean checkDoubleDb(Patient patient) {
 		logger.info("checking if patient {} {} and {} already in db", patient.getFamily(), patient.getGiven(),
 				patient.getDob());
 		return patientRepository.findDouble(patient.getFamily(), patient.getGiven(), patient.getDob()) == null;
 	}
 
-	/**
-	 * @param id of the patient
-	 * @return Boolean if patient is in DB
-	 */
 	private boolean checkDoubleDb(int id) {
 		logger.info("checking if patient {} already in db", id);
 		Optional<Patient> patient = patientRepository.findById(id);
 		return patient.isPresent();
 	}
 
-	/**
-	 * @param id of the patient
-	 * @return A patient informations
-	 * @throws PatientNoExistException Exception when the patient is not in DB
-	 */
 	public Optional<Patient> getPatientById(int id) throws PatientNoExistException {
 		logger.info("Service to return patient with id : {}", id);
 		if (checkDoubleDb(id) && id != 0) {
@@ -99,11 +72,6 @@ public class PatientService {
 		}
 	}
 
-	/**
-	 * @param patient Receive a patient Object
-	 * @return A patient informations
-	 * @throws PatientNoExistException Exception when the patient is not in DB
-	 */
 	public Patient updatingPatient(Patient patient) throws PatientNoExistException {
 		logger.info("Updating patient with id : {}", patient.getId());
 		if (checkDoubleDb((patient.getId())) && (patient.getId() != 0)) {

@@ -10,29 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import web.mediscreen.diabetalert.model.Historic;
 
-
-/**
- * @author Nicolas
- * <p>Feign service to history application</p>
- *
- */
 //For Docker use :
 @FeignClient(value = "microservice-historic", url = "http://patientHistory:8082")
 //For local development
 //@FeignClient(value = "microservice-historic", url = "http://localhost:8082")
 public interface HistoryFeign {
     
-    /**
-     * @param id of the patient
-     * @return the list of historic
-     */
     @GetMapping(value = "/historic/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<Historic> getHistoricPatientById(@PathVariable("id") int id);
     
-    /**
-     * @param patient as object
-     * @return the list of historic
-     */
     @GetMapping(value = "/historic", produces = MediaType.APPLICATION_JSON_VALUE)
     List<Historic> getHistoryWithName(@RequestParam("patient") String patient);
     

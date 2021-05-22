@@ -40,30 +40,22 @@ public class Patient {
     private String phone;
 
     public Patient() {
-    	super();	
+	super();
     }
 
-    /**
-     * @param family
-     * @param given 
-     * @param dateOfBirth
-     * @param sex
-     * @param address
-     * @param phone
-     */
     public Patient(@NotBlank(message = "Family name is mandatory") String family,
 	    @NotBlank(message = "Given name is mandatory") String given,
 	    @PastOrPresent(message = "Date of birth cannot be null") LocalDate dateOfBirth,
 	    @NotBlank(message = "You need to fill the sex") String sex,
 	    @NotBlank(message = "Adress cannot be blank") String address,
 	    @NotBlank(message = "Phone cannot be blank") String phone) {
-		super();
-		this.family = family;
-			this.given = given;
-		this.dob = dateOfBirth;
-		this.sex = sex;
-		this.address = address;
-		this.phone = phone;
+	super();
+	this.family = family;
+	this.given = given;
+	this.dob = dateOfBirth;
+	this.sex = sex;
+	this.address = address;
+	this.phone = phone;
     }
 
     /**

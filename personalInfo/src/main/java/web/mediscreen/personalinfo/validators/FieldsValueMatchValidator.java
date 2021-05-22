@@ -19,9 +19,6 @@ public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch
 
 	private Logger logger = LoggerFactory.getLogger(FieldsValueMatchValidator.class);
 
-	/**
-	 *<p>Check if the fields received are correct. Apply to Sex and Phone number</p>
-	 */
 	@Override
 	public boolean isValid(PatientDto patient, final ConstraintValidatorContext context) {
 		try {
@@ -40,13 +37,7 @@ public class FieldsValueMatchValidator implements ConstraintValidator<FieldMatch
 
 	}
 
-	/**
-	 * @param s Phone number
-	 * @param countryCode as ISO code
-	 * @return booelan
-	 * @throws NumberParseException Exception when unable to parse
-	 */
-	private static boolean isValidE123(String s, String countryCode) throws NumberParseException {
+	public static boolean isValidE123(String s, String countryCode) throws NumberParseException {
 		PhoneNumberUtil numberUtil = PhoneNumberUtil.getInstance();
 		PhoneNumber phoneNumber = numberUtil.parse(s, countryCode);
 		return numberUtil.isValidNumber(phoneNumber);

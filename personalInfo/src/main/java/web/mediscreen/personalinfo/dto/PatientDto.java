@@ -10,11 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import web.mediscreen.personalinfo.validators.FieldMatch;
 
-/**
- * @author Nicolas
- * <p>DTO of the patient for external communications</p>
- *
- */
 @FieldMatch
 public class PatientDto {
     @Id
