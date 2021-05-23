@@ -39,12 +39,20 @@ mvn test
 
 1. Install 
 
-   [Java]: https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html	"java installation guide"
+   [Java]: https://www.oracle.com/java/technologies/javase-jdk16-downloads.html	"java installation guide"
 
 2. Install 
 
    [Maven]: http://maven.apache.org/download.cgi	"Maven installation guide"
 
+3. Install
+
+   [MongoDb]: https://docs.mongodb.com/manual/installation/	"MongoDb installation"
+
+## Setup database
+
+1. Create database with name "mediscreen" as configuration in application.properties
+2. Create database with name "mediscreen-test" as configuration in application-test.properties
 
 ## API
 

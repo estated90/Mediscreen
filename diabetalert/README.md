@@ -34,7 +34,7 @@ mvn test
 
 1. Install 
 
-   [Java]: https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html	"java installation guide"
+   [Java]: https://www.oracle.com/java/technologies/javase-jdk16-downloads.html	"java installation guide"
 
 2. Install 
 

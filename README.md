@@ -7,25 +7,83 @@
 
 ## Install
 
+### Build the JAR files
+
+For personalInfo :
+
+```
+cd personalInfo/
+```
+
+```
+mvn clean
+```
+
+```
+mvn package
+```
+
 ```sh
+move target\personalinfo-0.0.1-SNAPSHOT.jar DockerFile\
+```
+
+for diabetalert :
+
+```
+cd diabetalert/
+```
+
+```
+mvn clean
+```
+
+```
+mvn package
+```
+
+```sh
+move target\diabetalert-0.0.1-SNAPSHOT.jar DockerFile\
+```
+
+for historic:
+
+```
+cd historic/
+```
+
+```
+mvn clean
+```
+
+```
+mvn package
+```
+
+```sh
+move target\historic-0.0.1-SNAPSHOT.jar DockerFile\
+```
+
+### Build docker container
+
+```
 docker-compose up -d
 ```
 
 ## Usage
 
 ```sh
-The docker will host 5 countainer for the applications and their DB
+The docker will host 6 countainer for the applications and their DB
 ```
 
 ## 
 
 1. Install 
 
-   [Java]: https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html	"java installation guide"
+   [Java]: https://www.oracle.com/java/technologies/javase-jdk16-downloads.html	"java 16 installation guide"
 
 2. Install 
 
-   [Gradle]: https://gradle.org/install/	"Gradle installation guide"
+   [Maven]: http://maven.apache.org/download.cgi	"Maven installation guide"
 
 3. Install Docker app : 
 
@@ -38,6 +96,7 @@ One Docker with 5 containers will be created.
 - diabetAlert: localhost:8083
 - mediscreen-db: localhost:3306
 - historic-db: localhost:27017
+- mediscreenfront : localhost:4200
 
 ## API
 
