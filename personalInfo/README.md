@@ -47,7 +47,7 @@ mvn test
 
 3. Install
 
-   [MongoDb]: https://docs.mongodb.com/manual/installation/	"MongoDb installation"
+   [MongoDb]: https://dev.mysql.com/downloads/	"MySql installation"
 
 ## Setup database
 
