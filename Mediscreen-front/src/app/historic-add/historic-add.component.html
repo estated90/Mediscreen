@@ -1,8 +1,11 @@
 <div class="col-sm-8 col-sm-offset-2">
   <form [formGroup]="historicForm" (ngSubmit)="onSubmitForm()">
     <div class="form-group">
-      <label for="practitionnerNotesRecommandation">Note / Recommandation</label>
-      <textarea type="text" id="practitionnerNotesRecommandation" class="form-control" formControlName="practitionnerNotesRecommandation">Please enter your notes</textarea>
+      <mat-form-field appearance="fill">
+        <mat-label>Please enter your notes</mat-label>
+        <textarea matInput type="text" formControlName="practitionnerNotesRecommandation" class="form-control"></textarea>
+        <mat-error *ngIf="historicForm.get('practitionnerNotesRecommandation')!.hasError('required')">Notes are required</mat-error>
+      </mat-form-field>
     </div>
     <div class="buttons">
       <button type="button" class="btn btn-back" (click)="returnToHistoric()">Cancel</button>

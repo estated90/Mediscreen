@@ -1,0 +1,33 @@
+.buttons {
+    margin-top: 15px;  
+    float: right;
+      overflow: visible;
+      width: 21%;
+      .btn-back{
+        margin-right:10%;
+        border-color: silver;
+        &:hover{
+          border-color: silver;
+          background-color: silver;
+        }
+      }
+    }
+
+span{
+    border: 1px solid #ddd;
+    .boxInfo{
+        height: 50px;
+        width: 100%;
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        margin: auto;
+        padding-left: 20px;
+        .informations{
+            float: left;
+            padding-top: 10px;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    }
+}

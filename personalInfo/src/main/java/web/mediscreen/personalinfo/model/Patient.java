@@ -36,7 +36,7 @@ public class Patient {
     private String sex;
     @Column(name = "address", length = 150, nullable = false)
     private String address;
-    @Column(name = "phone", length = 12, nullable = false)
+    @Column(name = "phone", length = 25, nullable = false)
     private String phone;
 
     public Patient() {

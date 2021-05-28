@@ -1,3 +1,4 @@
+import { NotificationService } from './../services/notification.service';
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -20,19 +21,27 @@ export class HistoricEditComponent implements OnInit {
   patient: Patient = <Patient>{};
   historic: Historic = <Historic>{};
   destroy$: Subject<boolean> = new Subject<boolean>();
+  errorMessage: any;
 
   constructor(private formBuilder: FormBuilder,
     private historicService: HistoricService,
     private route: ActivatedRoute,
-    private patientService: PatientService,
+    private notification: NotificationService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.historicService.getHistoricById(this.id).subscribe(historic => {
-      console.log(historic);
-      this.historic= historic;
-      this.updateForm();
-    });
+    this.historicService.getHistoricById(this.id)
+    .subscribe(
+      historic => {
+        this.historic= historic;
+        this.updateForm();
+      },
+      (error) => {
+        console.error('Request failed with error')
+        this.errorMessage = error;
+      }
+    );
+
     this.initForm();
   }
 
@@ -56,10 +65,19 @@ export class HistoricEditComponent implements OnInit {
     console.log('adding a new historic')
     const formValue = this.historicForm.value;
     this.historic.practitionnerNotesRecommandation = formValue['practitionnerNotesRecommandation'];
-    this.historicService.editHistoric(this.historic).subscribe(historic =>{
-      console.log(historic);
-      this.router.navigate(['/patient', 'historic', this.historic.patId]);
-    });
+    this.historicService.editHistoric(this.historic)
+      .subscribe(
+        (historic) =>{
+          console.log(historic);
+          this.notification.openSnackBar('Hisotric edited successfully', 'Done', 'custom-style-success')
+          this.router.navigate(['/patient', 'historic', this.historic.patId]);
+        },
+        (error) => {
+          console.error('Request failed with error')
+          this.errorMessage = error;
+          this.notification.openSnackBar('Error while editing data', 'Done', 'custom-style-error')
+        }
+      );
   }
 
   updateForm(){

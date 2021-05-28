@@ -1,26 +1,27 @@
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$medicare-front-primary: mat-palette($mat-indigo);
-$medicare-front-accent: mat-palette($mat-pink, A200, A100, A400);
+$medicare-front-primary: mat.define-palette(mat.$indigo-palette);
+$medicare-front-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$medicare-front-warn: mat-palette($mat-red);
+$medicare-front-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$medicare-front-theme: mat-light-theme((
+$medicare-front-theme: mat.define-light-theme((
   color: (
     primary: $medicare-front-primary,
     accent: $medicare-front-accent,
@@ -31,9 +32,90 @@ $medicare-front-theme: mat-light-theme((
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($medicare-front-theme);
+@include mat.all-component-themes($medicare-front-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body { height: 90%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.buttons {
+  float: right;
+  overflow: visible;
+  width: 21%;
+  .btn-back{
+    margin-right:10%;
+    border-color: silver;
+    &:hover{
+      border-color: silver;
+      background-color: silver;
+    }
+  }
+  .btn-primary{
+    border-color: #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+    cursor: pointer;
+    &:hover {
+      border-color: #4CAF50;
+      background-color:#4CAF50;
+      color: white;
+    }
+  }
+}
+
+.btn-edit{
+  margin-top: 2em;
+  height: 2.2em;
+  width : 2.2em;
+  border-color: #4CAF50;
+  background-color: white;
+  color: #4CAF50;
+  padding: 3px 3px;
+  margin-left: 0.5em;
+  &:hover {
+    border-color: #4CAF50;
+    background-color:#4CAF50;
+    color: white;
+  }
+  mat-icon{
+    vertical-align:middle;
+  }
+}
+
+label{
+	margin-bottom: 5px;
+}
+
+mat-form-field{
+	margin-bottom: 5px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.custom-style-success{
+  background-color:green;
+  color:white;
+  .mat-simple-snackbar-action{
+    color: white;
+  }
+}
+
+.custom-style-error{
+  background-color:red;
+  color:white;
+  .mat-simple-snackbar-action{
+    color: white;
+  }
+}
+
+.custom-style-info{
+  background-color:orange;
+  color:white;
+  .mat-simple-snackbar-action{
+    color: white;
+  }
+}

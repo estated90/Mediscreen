@@ -63,37 +63,6 @@
       #date{
         display: inline;
       }
-  }
-  }
-  .btn-edit{
-    height: 2.2em;
-    width : 2.2em;
-    border-color: #4CAF50;
-    background-color: white;
-    color: #4CAF50;
-    padding: 3px 3px;
-    margin-left: 0.5em;
-    &:hover {
-      border-color: #4CAF50;
-      background-color:#4CAF50;
-      color: white;
-    }
-    mat-icon{
-      vertical-align:middle;
-    }
-  }
-}
-
-.buttons {
-  float: right;
-  overflow: visible;
-  width: 21%;
-  .btn-back{
-    float: right;
-    border-color: silver;
-    &:hover{
-      border-color: silver;
-      background-color: silver;
     }
   }
 }

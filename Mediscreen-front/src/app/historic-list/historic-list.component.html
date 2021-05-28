@@ -12,7 +12,7 @@
       <button class="btn btn-standard" (click)="goToNewHistoric()">Add Historic</button>
     </div>
   </div>
-  <div class="cards" *ngFor="let historic of historics">
+  <div class="cards" [hidden]="!listDisplay" *ngFor="let historic of historics">
     <div class="notes">
       <div class="date">
         <label id="date">Date : </label>
@@ -20,7 +20,12 @@
       </div>
       <p>{{ historic.practitionnerNotesRecommandation }}</p>
     </div>
-      <button class="btn btn-edit" (click)="goToEdit(historic.id)"><mat-icon>edit</mat-icon></button>
+    <button class="btn btn-edit" (click)="goToEdit(historic.id)"><mat-icon>edit</mat-icon></button>
+  </div>
+  <div class="cards ng-hide" [hidden]="listDisplay">
+    <div class="notes">
+      <p>There is no historic for the patient yet</p>
+    </div>
   </div>
   <div class="buttons">
     <button type="button" class="btn btn-back" (click)="returnToPatient()">Return</button>

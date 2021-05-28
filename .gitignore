@@ -35,6 +35,12 @@ historic/.settings/
 historic/target/
 historic/bin/
 
+diabetalert/.mvn/
+diabetalert/.gitignore
+diabetalert/.settings/
+diabetalert/target/
+diabetalert/bin/
+
 Mediscreen-front/dist/
 Mediscreen-front/.vscode/
 Mediscreen-front/.browserslistrc

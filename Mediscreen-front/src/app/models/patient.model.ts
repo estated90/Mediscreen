@@ -6,6 +6,7 @@ export class Patient {
   sex!: string;
   address!: string;
   phone!: string;
+  countryCode!: string;
 
   constructor(){}
 }

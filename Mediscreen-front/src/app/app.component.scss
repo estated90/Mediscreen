@@ -1,4 +1,4 @@
-ul {
+mat-toolbar {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@ ul {
   background-color: #333;
 }
 
-li {
+span {
   float: left;
   padding: 14px 16px;
   a {
@@ -23,4 +23,16 @@ li {
 
 .container{
   margin-top: 20px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%  !important;
 }

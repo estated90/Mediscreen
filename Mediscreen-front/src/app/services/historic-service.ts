@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Historic } from '../models/historic.model';
 
@@ -38,7 +38,8 @@ export class HistoricService {
         return this.httpClient.put<Historic>(API_URL, this.stringJson,this.httpOptions).pipe(retry(1), catchError(this.handleError));
     }
 
-    editHistoric(historic: Historic) {
+    editHistoric(historic: Historic): Observable<Historic> {
+      console.log('Sending new historic to service ')
       this.stringJson = JSON.stringify(historic);
       let API_URL = `${this.apiUrl}/update`;
       return this.httpClient.post<Historic>(API_URL, this.stringJson,this.httpOptions).pipe(retry(1), catchError(this.handleError));

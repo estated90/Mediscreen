@@ -30,9 +30,13 @@ public class PatientDto {
     @NotNull(message = "Adress cannot be null")
     @NotBlank(message = "Adress cannot be blank")
     private String address;
+    @NotNull(message = "Country code cannot be null")
+    @NotBlank(message = "Country code cannot be blank")
+    private String countryCode;
     @NotNull(message = "Phone cannot be null")
     @NotBlank(message = "Phone cannot be blank")
     private String phone;
+    
     /**
      * @return the id
      */
@@ -117,6 +121,18 @@ public class PatientDto {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+	/**
+	 * @return the countryCode
+	 */
+	public String getCountryCode() {
+		return countryCode;
+	}
+	/**
+	 * @param countryCode the countryCode to set
+	 */
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
 
     
     

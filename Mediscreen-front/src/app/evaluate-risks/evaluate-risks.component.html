@@ -1,0 +1,17 @@
+<header>
+    <h2>Evaluation of diabet risk</h2>
+</header>
+<body>
+    <span>
+        <div class="boxInfo">
+            <p class = "informations">{{patient.family}} </p>
+            <p class = "informations">{{patient.given}} </p>
+        </div>
+        <div class="returnedvalue">
+            <p>{{value}}</p>
+        </div>
+    </span>
+    <div class="buttons">
+        <button type="button" class="btn btn-back" (click)="returnToHistoric()">Return</button>
+    </div>
+</body>
